@@ -8,6 +8,8 @@ import Foundation
 import SwiftUI
 
 /// DefinedElements 输入框组件
+/// - TODO: 状态 Disable / Enable
+/// - TODO: Debug
 struct DefinedTextField: View {
     /// 默认值 < 非强制外部变量 >
     ///
@@ -50,6 +52,10 @@ struct DefinedTextField: View {
     /// 边框宽度 - 激活状态 < 内部变量 >
     @State private var borderWidth_act: CGFloat = 5
     
+    /**
+     Body 部署开始
+     */
+    
     var body: some View {
         DefinedTextFieldModule(
             def: self.def,
@@ -66,6 +72,58 @@ struct DefinedTextField: View {
             borderWidth_def: self.$borderWidth_def,
             borderWidth_act: self.$borderWidth_act
         )
+    }
+    
+    /**
+     Setter 部署开始
+     */
+    
+    /// 设置文字颜色 - 默认状态
+    ///
+    /// - Parameter value: `Color` 。
+    @inlinable public func setTextColorDefault(_ value: Color) -> DefinedTextField {
+        self.textColor_def = value
+        return self
+    }
+    
+    /// 设置文字颜色 - 激活状态
+    ///
+    /// - Parameter value: `Color` 。
+    @inlinable public func setTextColorActive(_ value: Color) -> DefinedTextField {
+        self.textColor_act = value
+        return self
+    }
+    
+    /// 设置文本框背景颜色 - 默认状态
+    ///
+    /// - Parameter value: `Color` 。
+    @inlinable public func setBackgroundColorDefault(_ value: Color) -> DefinedTextField {
+        self.backgroundColor_def = value
+        return self
+    }
+    
+    /// 设置文本框背景颜色 - 激活状态
+    ///
+    /// - Parameter value: `Color` 。
+    @inlinable public func setBackgroundColorActive(_ value: Color) -> DefinedTextField {
+        self.backgroundColor_act = value
+        return self
+    }
+    
+    /// 设置边框颜色 - 默认状态
+    ///
+    /// - Parameter value: `Color` 。
+    @inlinable public func setBorderColorDefault(_ value: Color) -> DefinedTextField {
+        self.borderColor_def = value
+        return self
+    }
+    
+    /// 设置边框颜色 - 激活状态
+    ///
+    /// - Parameter value: `Color` 。
+    @inlinable public func setBorderColorActive(_ value: Color) -> DefinedTextField {
+        self.borderColor_act = value
+        return self
     }
     
     /// 赋予水平拓展能力
@@ -85,6 +143,26 @@ struct DefinedTextField: View {
         self.isVerticalExpandable = value
         return self
     }
+    
+    /// 设置边框宽度 - 默认状态
+    ///
+    /// - Parameter value: `CGFloat` 。
+    @inlinable public func setBorderWidthDefault(_ value: CGFloat) -> DefinedTextField {
+        self.borderWidth_def = value
+        return self
+    }
+    
+    /// 设置边框宽度 - 激活状态
+    ///
+    /// - Parameter value: `CGFloat` 。
+    @inlinable public func setBorderWidthActive(_ value: CGFloat) -> DefinedTextField {
+        self.borderWidth_act = value
+        return self
+    }
+    
+    /**
+     核心部件 部署开始
+     */
     
     /// 输入框核心部件 < 内部组件 >
     ///
@@ -132,7 +210,6 @@ struct DefinedTextField: View {
         /// 边框宽度 - 激活状态 < 内部变量 >
         @Binding var borderWidth_act: CGFloat
         
-        /// - TODO: 边框
         var body: some View {
             TextField(def, text: $input)
                 .padding(.horizontal, INNER_SIDE_PADDING)
@@ -143,6 +220,8 @@ struct DefinedTextField: View {
                        maxHeight: isVerticalExpandable ? .infinity : OUTER_HEIGHT)
                 .background(RoundedRectangle(cornerRadius: Defined.Dimens.CORNER_STR)
                                 .foregroundColor(backgroundColor_def))
+                .overlay(RoundedRectangle(cornerRadius: Defined.Dimens.CORNER_STR)
+                            .stroke(borderColor_def, lineWidth: borderWidth_def))
                 .keyboardType(keyboardType)
         }
     }
