@@ -5,8 +5,7 @@ import SwiftUI
 public struct DefinedViewBackgroundConfiguration {
     /// A boolean representing if this view is using `BackgroundConfiguration`.
     ///
-    /// - Important:
-    ///   This variable should not be changed!
+    /// - Important: This variable should not be changed!
     var inactive: Bool
     
     ///
@@ -32,7 +31,15 @@ public struct DefinedViewBackgroundConfiguration {
         self.inactive = inactive
     }
     
+    /// [DE] Create a Background Configuration with corresponding setups.
     ///
+    /// - Parameters:
+    ///   - def: The background view setup when status is `default`.
+    ///   - loading: The background view setup when status is `loading`.
+    ///   - act: The background view setup when status is `active`.
+    ///   - done: The background view setup when status is `done`.
+    ///   - error: The background view setup when status is `error`.
+    ///   - disabled: The background view setup when status is `disabled`.
     public init(
         default: AnyView? = nil,
         loading: AnyView? = nil,
