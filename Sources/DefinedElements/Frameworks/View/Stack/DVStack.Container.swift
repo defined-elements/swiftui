@@ -1,6 +1,8 @@
+#if os(iOS)
+
 import Foundation
 
-///
+/// [DE Internal]
 struct DefinedViewStackContainer {
     ///
     var stack = [DefinedViewStackElement]()
@@ -29,3 +31,5 @@ struct DefinedViewStackContainer {
         stack.removeAll()
     }
 }
+
+#endif
