@@ -1,103 +1,61 @@
+#if os(iOS)
+
 import Foundation
 import SwiftUI
 
+/// [DE Internal] A core manager controlling the view stack.
 ///
-class DefinedViewManager : ObservableObject {
-    /// ViewManager 实体 < 内部变量 >
-    ///
-    /// - Warning: 需要禁止用户创建多个ViewStack！不符合功能设计，会导致层级错误！
-    private static var instance: DefinedViewManager = DefinedViewManager()
+/// Should be attached to a `DefinedViewStack` for proper using.
+class DefinedViewManager : DefinedPotentialWarning {
+    var name: String = "DefinedViewManager"
     
     ///
-    @Published var onAnimated: Bool = true // TODO: 下层View仅在侧滑时出现
+    static var instance = DefinedViewManager()
     
     ///
-    @Published var onRootAnimated: Bool = false
-    
-    /// 视图存储器
-    @Published var views: [DefinedPageElement] = []
-    
-    /// 状态栏样式存储器
-    @Published var statusBarStyles: [UIStatusBarStyle] = []
-    
-    /// 偏移量存储器
-    @Published var offsets: [CGFloat] = [0]
-    
-    /// 页面宽度
-    @Published var width: CGFloat = 0
-    
-    /// 页面高度
-    @Published var height: CGFloat = 0
+    var hierarchy: [DefinedViewManagerRootElement] = []
     
     ///
-    @Published var safeAreaInsets: EdgeInsets = EdgeInsets.init()
-    
-    /// 页面宽度
-    @Published var overallOpacity: Double = 1.0
-    
-    /// 构造器
-    init() {
-        // do nothing
-    }
+    var pageMap: [UUID: DefinedViewManagerElement] = [:]
     
     ///
-    fileprivate var viewStack = DefinedViewContainerStack() {
-        didSet {
-            views = viewStack.getStack()
-        }
-    }
-    
-    ///
-    func push<Page>(_ target: Page) where Page: DefinedPage {
-        self.offsets.append(0)
-        withAnimation(.easeInOut(duration: 0.30)) {
-            self.viewStack.push(DefinedPageElement(target))
-            if self.viewStack.stack.count > 1 {
-                self.offsets[self.offsets.count - 2] = -self.width / 4
-            }
+    public static func register(manager stackManager: DefinedViewStackManager, parent: DefinedViewManagerRootElement) {
+        let rootElement = DefinedViewManagerRootElement(docker: DefinedViewStackDocker(manager: stackManager),
+                                                        parent: parent)
+        
+        if (stackManager.elements.first == nil) {
+            // ERROR: no initial page!
+            DefinedWarning.send(from: "DVManager", "the manager (stack manager) does not have any page inside!")
+            return
         }
         
+        let pageElement = DefinedViewManager.registerPage(id: stackManager.elements.first!.id, parent: rootElement)
+        
+        rootElement.hierarchy.append(pageElement)
+        
+        DefinedViewManager.instance.hierarchy.append(rootElement)
     }
     
     ///
-    func pop() {
-        if self.viewStack.stack.count > 1 {
-            withAnimation(.easeInOut(duration: 0.25)) {
-                if (self.offsets[self.offsets.count - 2] == 0) {
-                    self.viewStack.pop()
-                } else {
-                    withAnimation(.easeInOut(duration: 0.26)) {
-                        self.viewStack.pop()
-                    }
-                }
-                self.offsets[self.offsets.count - 2] = 0
-            }
-        } else {
-            withAnimation(.easeInOut(duration: 0.26)) {
-                self.viewStack.pop()
-            }
-        }
-        self.offsets.removeLast()
+    public static func find(_ id: UUID) -> DefinedViewManagerElement {
+        return DefinedViewManager.instance.pageMap[id] ?? .dummy
     }
     
     ///
-    func jump<Page>(_ target: Page) where Page: DefinedPage {
-        withAnimation(.easeInOut(duration: 0.50)) {
-            self.renew()
-            self.viewStack.push(DefinedPageElement(target))
-        }
+    public static func find<Page>(_ page: Page) -> DefinedViewManagerElement where Page: DefinedPage {
+        return DefinedViewManager.instance.pageMap[page.id] ?? .dummy
     }
     
     ///
-    func renew() {
-        self.viewStack.removeAll()
-        self.offsets = [0]
+    internal static func registerPage(id: UUID, parent: DefinedViewManagerRootElement) -> DefinedViewManagerElement {
+        let pageElement = DefinedViewManagerElement(id: id, parent: parent)
+        DefinedViewManager.instance.pageMap[id] = pageElement
+        return pageElement
     }
     
-    // MARK: Outside Functions
-    
-    ///
-    static func get() -> DefinedViewManager {
-        return Self.instance
+    internal static func unregisterPage(id: UUID) {
+        DefinedViewManager.instance.pageMap.removeValue(forKey: id)
     }
 }
+
+#endif
