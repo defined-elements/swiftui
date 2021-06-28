@@ -2,8 +2,6 @@
 
 import Foundation
 import SwiftUI
-import ObjectiveC
-
 
 /// DefinedPage - 页面基础协议 @ DefinedElements
 ///
@@ -192,32 +190,6 @@ public extension DefinedPage {
         }
     }
 }
-
-// MARK: - Docker
-
-//public extension DefinedPage {
-//    var viewStackDocker: DefinedViewStackDocker {
-//        get {
-//            // by default, create a docker without manager.
-//            return DefinedViewStackDocker()
-//        }
-//        set {
-//            print("set \(newValue)")
-//        }
-//    }
-//
-//    internal func bindPageTo(manager: DefinedViewManager) -> Self {
-//        var copy = self
-//        copy.changeViewStackDocker(DefinedViewStackDocker(manager: manager))
-//        print("after: \(copy.viewStackDocker)")
-//        return copy
-//    }
-//
-//    internal mutating func changeViewStackDocker(_ target: DefinedViewStackDocker) {
-//        self.viewStackDocker.manager = target.manager
-//        print("changed: \(self.viewStackDocker)")
-//    }
-//}
 
 // MARK: - Core - Process
 

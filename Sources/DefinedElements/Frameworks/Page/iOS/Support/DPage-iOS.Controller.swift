@@ -1,8 +1,11 @@
 import Foundation
 
+/// [DE]
 public class DefinedPageController {
-    public let id: UUID = UUID()
+    ///
+    internal let id: UUID = UUID()
     
+    ///
     public init() {
         //
     }
