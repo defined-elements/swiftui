@@ -19,7 +19,11 @@ class DefinedViewManager : DefinedPotentialWarning {
     var pageMap: [UUID: DefinedViewManagerElement] = [:]
     
     ///
-    public static func register(manager stackManager: DefinedViewStackManager, parent: DefinedViewManagerRootElement) {
+    public static func registerStack(
+        manager stackManager: DefinedViewStackManager,
+        parent: DefinedViewManagerRootElement,
+        under: DefinedViewManagerElement? = nil
+    ) {
         let rootElement = DefinedViewManagerRootElement(docker: DefinedViewStackDocker(manager: stackManager),
                                                         parent: parent)
         
@@ -33,7 +37,24 @@ class DefinedViewManager : DefinedPotentialWarning {
         
         rootElement.hierarchy.append(pageElement)
         
+        if (under != nil) {
+            under!.register(rootElement)
+        }
+        
         DefinedViewManager.instance.hierarchy.append(rootElement)
+    }
+    
+    ///
+    public static func unregisterStack(root: DefinedViewManagerRootElement) {
+        DefinedViewManager.instance.hierarchy.removeAll(where: { curr in
+            if curr == root {
+                for page in curr.hierarchy {
+                    DefinedViewManager.unregisterPage(id: page.id)
+                }
+                return true
+            }
+            return false
+        })
     }
     
     ///
@@ -54,7 +75,10 @@ class DefinedViewManager : DefinedPotentialWarning {
     }
     
     internal static func unregisterPage(id: UUID) {
-        DefinedViewManager.instance.pageMap.removeValue(forKey: id)
+        guard let page = DefinedViewManager.instance.pageMap.removeValue(forKey: id) else {
+            return
+        }
+        page.unregister()
     }
 }
 

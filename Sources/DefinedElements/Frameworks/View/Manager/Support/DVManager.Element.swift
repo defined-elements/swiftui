@@ -2,9 +2,13 @@
 
 import Foundation
 
+/// [DE Internal]
 internal class DefinedViewManagerElement : Equatable {
     var id: UUID
+    
     var parent: DefinedViewManagerRootElement
+    
+    var stacks: [DefinedViewManagerRootElement] = []
     
     init(id: UUID, parent: DefinedViewManagerRootElement) {
         self.id = id
@@ -27,6 +31,16 @@ internal class DefinedViewManagerElement : Equatable {
         parent.back()
     }
     
+    func register(_ root: DefinedViewManagerRootElement) {
+        self.stacks.append(root)
+    }
+    
+    func unregister() {
+        for r in stacks {
+            DefinedViewManager.unregisterStack(root: r)
+        }
+    }
+    
     static func == (lhs: DefinedViewManagerElement, rhs: DefinedViewManagerElement) -> Bool {
         return lhs.id == rhs.id
     }
@@ -47,7 +61,9 @@ internal class DefinedViewManagerDummyElement : DefinedViewManagerElement {
     }
 }
 
-internal class DefinedViewManagerRootElement : DefinedPotentialWarning {
+internal class DefinedViewManagerRootElement : DefinedPotentialWarning, Equatable {
+    var id: UUID = UUID()
+    
     var name: String = "DVManagerRootElement"
     
     var hierarchy: [DefinedViewManagerElement] = []
@@ -105,6 +121,10 @@ internal class DefinedViewManagerRootElement : DefinedPotentialWarning {
             // TODO: back the parent page if back-parent enabled.
             // TODO: implement back-parent feature.
         }
+    }
+    
+    static func == (lhs: DefinedViewManagerRootElement, rhs: DefinedViewManagerRootElement) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 
