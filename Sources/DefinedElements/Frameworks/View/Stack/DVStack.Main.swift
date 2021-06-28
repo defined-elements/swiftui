@@ -1,3 +1,5 @@
+#if os(iOS)
+
 import Foundation
 import SwiftUI
 
@@ -8,46 +10,37 @@ public struct DefinedViewStack : DefinedView {
     /// 页面堆栈管理器 < 环境变量 >
     ///
     /// 用于进行页面堆栈的管理，以及实现页面堆栈的交互动效
-    @ObservedObject var manager: DefinedViewManager = DefinedViewManager.get()
+    @ObservedObject var manager: DefinedViewStackManager = DefinedViewStackManager.generate()
     
     /// 视图空间 < 内部变量 >
     @Namespace private var space
     
-    /// 默认页面进出动效 < 外部常量 >
+    /// DefinedViewStack 构造器 - DefinedPage < 推荐构造器 >
     ///
-    /// 从右侧滑入，从右侧滑出。下层View通过offset实现位移而非transition。
-    public static var defaultTransition: AnyTransition {
-        .move(edge: .trailing)
-    }
-    
-    /// DefinedViewStack 构造器 - View
-    ///
-    /// - Parameter start: 底层视图
-    public init<Content>(from start: Content) where Content: View {
-        if self.manager.views.count > 0 {
-            self.manager.renew()
-        }
-        self.manager.viewStack.push(DefinedPageElement(AnyView(start)))
-    }
-    
-    /// DefinedViewStack 构造器 - AnyView
-    ///
-    /// - Parameter start: 底层视图
-    public init(from start: AnyView) {
-        if self.manager.views.count > 0 {
-            self.manager.renew()
-        }
-        self.manager.viewStack.push(DefinedPageElement(start))
+    /// - Parameters:
+    ///   - from: The start page of this stack.
+    internal init<StartPage>(from start: StartPage) where StartPage: DefinedPage {
+        self.manager.viewStack.push(DefinedViewStackElement(start))
+        DefinedViewManager.register(
+            manager: self.manager,
+            parent: .base
+        )
     }
     
     /// DefinedViewStack 构造器 - DefinedPage < 推荐构造器 >
     ///
-    /// - Parameter start: 底层页面
-    public init<Page>(from start: Page) where Page: DefinedPage {
-        if self.manager.views.count > 0 {
-            self.manager.renew()
-        }
-        self.manager.viewStack.push(DefinedPageElement(start))
+    /// - Parameters:
+    ///   - from: The start page of this stack.
+    ///   - at: The parent page (the page holding this stack, NOT the root page of this stack).
+    public init<StartPage, ParentPage>(
+        from start: StartPage,
+        at parent: ParentPage
+    ) where StartPage: DefinedPage, ParentPage: DefinedPage {
+        self.manager.viewStack.push(DefinedViewStackElement(start))
+        DefinedViewManager.register(
+            manager: self.manager,
+            parent: DefinedViewManager.find(parent).parent
+        )
     }
     
     // MARK: - Body
@@ -56,14 +49,14 @@ public struct DefinedViewStack : DefinedView {
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .center) { // MARK: View Part
-                if self.manager.views.count >= 1 {
-                    ForEach(0...self.manager.views.count-1, id: \.self) { i in
-                        self.manager.views[i].content
-                            .offset(x: i == self.manager.views.count - 1 || i == self.manager.views.count - 2 ? self.manager.offsets[i] : 0)
-                            .matchedGeometryEffect(id: self.manager.views[i].id, in: self.space)
+                if self.manager.elements.count >= 1 {
+                    ForEach(0...self.manager.elements.count-1, id: \.self) { i in
+                        self.manager.elements[i].content
+                            .offset(x: i == self.manager.elements.count - 1 || i == self.manager.elements.count - 2 ? self.manager.offsets[i] : 0)
+                            .matchedGeometryEffect(id: self.manager.elements[i].id, in: self.space)
                             .overlay(
                                 DefinedContent(.overlay) {
-                                    if i == self.manager.views.count - 2 {
+                                    if i == self.manager.elements.count - 2 {
                                         Color.black.opacity(0.1)
                                             .edgesIgnoringSafeArea(.all)
                                             .transition(.opacity)
@@ -75,7 +68,7 @@ public struct DefinedViewStack : DefinedView {
                             )
                             .transition(i == 0 ? .opacity : .move(edge: .trailing))
                             .zIndex(Double(i))
-                            .hidden(when_to_show: self.manager.onAnimated && i >= self.manager.views.count - 2)
+                            .visibility(show: self.manager.onAnimated && i >= self.manager.elements.count - 2)
                     }
                 } else {
                     EmptyView()
@@ -83,10 +76,10 @@ public struct DefinedViewStack : DefinedView {
             }
             .overlay( // MARK: Drag Part
                 DefinedContent(.overlay, alignment: .leading) {
-                    if self.manager.views.count > 1 {
+                    if self.manager.elements.count > 1 {
                         Color.clear
                             .frame(width: 22)
-                            .definedFullSize(.vertical, priorAlign: .leading)
+                            .frame(maxHeight: .infinity, alignment: .leading)
                             .background(Color.blue.opacity(0))
                             .contentShape(Rectangle())
                             .simultaneousGesture(
@@ -100,18 +93,19 @@ public struct DefinedViewStack : DefinedView {
                                 DragGesture(coordinateSpace: .local)
                                     .onChanged({ gesture in
                                         withAnimation(.easeInOut(duration: 0.12)) {
-                                            self.manager.offsets[self.manager.views.count - 1] = gesture.location.x / 1.2
-                                            self.manager.offsets[self.manager.views.count - 2] = -proxy.size.width / 4 + gesture.location.x / 4.8
+                                            self.manager.offsets[self.manager.elements.count - 1] = gesture.location.x / 1.2
+                                            self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + gesture.location.x / 4.8
                                         }
                                     })
                                     .onEnded({ gesture in
                                         if gesture.predictedEndTranslation.width > 150 {
-                                            // TODO:
-                                            self.manager.pop()
+                                            // call the main manager to pop instead of popping from stack manager directly.
+                                            // unregister the page and pop from current stack.
+                                            DefinedViewManager.find(self.manager.elements.last!.id).back()
                                         } else {
                                             withAnimation(.easeInOut(duration: 0.15)) {
-                                                self.manager.offsets[self.manager.views.count - 1] = 0
-                                                self.manager.offsets[self.manager.views.count - 2] = -proxy.size.width / 4
+                                                self.manager.offsets[self.manager.elements.count - 1] = 0
+                                                self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4
                                             }
                                         }
                                     }),
@@ -119,7 +113,7 @@ public struct DefinedViewStack : DefinedView {
                             )
                     }
                 }
-                .definedSize(width: .full, height: .full, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             )
             // .mask(Color.black.opacity(self.manager.overallOpacity).animation(.easeInOut(duration: 0.30)).edgesIgnoringSafeArea(.all))
             .disabled(self.manager.onRootAnimated)
@@ -133,6 +127,8 @@ public struct DefinedViewStack : DefinedView {
     
     ///
     public func setStatusBarStyle(_ style: UIStatusBarStyle) {
-        
+        //
     }
 }
+
+#endif
