@@ -3,14 +3,16 @@
 import Foundation
 
 ///
-public struct DefinedViewStackDocker {
-    private var manager: DefinedViewManager?
+public struct DefinedViewStackDocker : DefinedPotentialWarning {
+    public var name: String = "DVStackDocker"
+    
+    internal var manager: DefinedViewStackManager?
     
     public init() {
         self.manager = nil
     }
     
-    init(manager: DefinedViewManager) {
+    internal init(manager: DefinedViewStackManager) {
         self.manager = manager
     }
     
@@ -19,7 +21,7 @@ public struct DefinedViewStackDocker {
         if (self.manager != nil) {
             manager!.push(target)
         } else {
-            //
+            print("null docker")
         }
     }
     
@@ -33,7 +35,7 @@ public struct DefinedViewStackDocker {
     }
     
     ///
-    public func swap<Page>(to target: Page) where Page: DefinedPage {
+    public func swap<Page>(with target: Page) where Page: DefinedPage {
         if (self.manager != nil) {
             //
         } else {
@@ -46,7 +48,7 @@ public struct DefinedViewStackDocker {
         if (self.manager != nil) {
             manager!.pop()
         } else {
-            //
+            warning("the manager is null!")
         }
     }
 }
