@@ -21,7 +21,7 @@ public struct DefinedViewStack : DefinedView {
     ///   - from: The start page of this stack.
     internal init<StartPage>(from start: StartPage) where StartPage: DefinedPage {
         self.manager.viewStack.push(DefinedViewStackElement(start))
-        DefinedViewManager.register(
+        DefinedViewManager.registerStack(
             manager: self.manager,
             parent: .base
         )
@@ -37,9 +37,10 @@ public struct DefinedViewStack : DefinedView {
         at parent: ParentPage
     ) where StartPage: DefinedPage, ParentPage: DefinedPage {
         self.manager.viewStack.push(DefinedViewStackElement(start))
-        DefinedViewManager.register(
+        DefinedViewManager.registerStack(
             manager: self.manager,
-            parent: DefinedViewManager.find(parent).parent
+            parent: DefinedViewManager.find(parent).parent,
+            under: DefinedViewManager.find(parent)
         )
     }
     
@@ -92,9 +93,11 @@ public struct DefinedViewStack : DefinedView {
                             .simultaneousGesture(
                                 DragGesture(coordinateSpace: .local)
                                     .onChanged({ gesture in
-                                        withAnimation(.easeInOut(duration: 0.12)) {
-                                            self.manager.offsets[self.manager.elements.count - 1] = gesture.location.x / 1.2
-                                            self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + gesture.location.x / 4.8
+                                        if self.manager.elements.count > 1 {
+                                            withAnimation(.easeInOut(duration: 0.12)) {
+                                                self.manager.offsets[self.manager.elements.count - 1] = gesture.location.x / 1.2
+                                                self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + gesture.location.x / 4.8
+                                            }
                                         }
                                     })
                                     .onEnded({ gesture in
@@ -103,9 +106,11 @@ public struct DefinedViewStack : DefinedView {
                                             // unregister the page and pop from current stack.
                                             DefinedViewManager.find(self.manager.elements.last!.id).back()
                                         } else {
-                                            withAnimation(.easeInOut(duration: 0.15)) {
-                                                self.manager.offsets[self.manager.elements.count - 1] = 0
-                                                self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4
+                                            if self.manager.elements.count > 1 {
+                                                withAnimation(.easeInOut(duration: 0.15)) {
+                                                    self.manager.offsets[self.manager.elements.count - 1] = 0
+                                                    self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4
+                                                }
                                             }
                                         }
                                     }),
@@ -127,7 +132,7 @@ public struct DefinedViewStack : DefinedView {
     
     ///
     public func setStatusBarStyle(_ style: UIStatusBarStyle) {
-        //
+        // TODO:
     }
 }
 
