@@ -29,6 +29,10 @@ Not finished yet.
 
 ## Contribution
 
+### How to contribute?
+
 Since this framework has not yet done its initial development, we do not expect any contribution for now!
+
+### Credits
 
 **Framework:** **[Lingxi Li](https://github.com/lilingxi01)**
