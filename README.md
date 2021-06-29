@@ -1,6 +1,8 @@
+<br>
+
 <h1 align="center">
   <code>{ defined-elements }</code><br>
-  <sub><sup>SwiftUI Version</sup></sub>
+  <sub><sup>SwiftUI Version</sup></sub><br><br>
 </h1>
 
 <br>
@@ -9,7 +11,7 @@
 
 <blockquote><p align="center"><b>
   This package is the SwiftUI version of <code>Defined Elements</code>.<br>
-  Looking for other versions? Check our <a href="https://github.com/taci-tech/defined-elements">main repo</a>!<br>
+  Looking for other versions? Check out our <a href="https://github.com/taci-tech/defined-elements">main repo</a>!<br>
 </b></p></blockquote>
 
 <hr width=5></hr>
