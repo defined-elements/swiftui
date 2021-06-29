@@ -21,7 +21,7 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         if (self.manager != nil) {
             manager!.push(target)
         } else {
-            print("null docker")
+            warning("the manager is null!")
         }
     }
     
@@ -30,7 +30,7 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         if (self.manager != nil) {
             manager!.jump(target)
         } else {
-            //
+            warning("the manager is null!")
         }
     }
     
@@ -39,7 +39,7 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         if (self.manager != nil) {
             //
         } else {
-            //
+            warning("the manager is null!")
         }
     }
     
