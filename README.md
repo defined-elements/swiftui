@@ -7,23 +7,19 @@
 
 <br>
 
-<hr width=5></hr>
-
 <blockquote><p align="center"><b>
   This package is the SwiftUI version of <code>Defined Elements</code>.<br>
   Looking for other versions? Check out our <a href="https://github.com/taci-tech/defined-elements">main repo</a>!<br>
 </b></p></blockquote>
 
-<hr width=5></hr>
+<br>
 
-<blockquote><h3 align="center">
-  Redefine the User Experience on all apple platforms.<br>
-  Build specifically for SwiftUI.
-</h3></blockquote>
+<blockquote><p align="center">
+  Re-define the User Experience on all apple platforms.<br>
+  Build <i>specifically</i> for SwiftUI.
+</p></blockquote>
 
-<hr width=5></hr>
-
-<br><br>
+<br>
 
 ## Demo
 
