@@ -208,8 +208,11 @@ extension DefinedPage {
         }
         .onAppear(perform: onPageLoaded)
         .onDisappear(perform: onPageEnded)
+        .onChange(of: self.statusBarStyle, perform: { status in
+            DefinedViewManager.find(self).setStatusBarStyle(self.statusBarStyle)
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(DEColor.bg.light.edgesIgnoringSafeArea(.all))
+        .background(DEColor.bg.light.edgesIgnoringSafeArea(.all)) // TODO: customize page background API
     }
 }
 
