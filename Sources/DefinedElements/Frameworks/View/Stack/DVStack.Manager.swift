@@ -28,12 +28,6 @@ class DefinedViewStackManager : ObservableObject {
     ///              This array will be synced automatically with one inside `DefinedViewStackContainer`.
     ///              So manually modifying this array may result in fatal bugs.
     @Published var elements: [DefinedViewStackElement] = []
-    
-    /// All status bar styles correponding to every element.
-    ///
-    /// All dynamically modified data should be stored into here instead of inside `DefinedViewStackElement`.
-    /// The `statusBarStyle` field in `DefinedViewStackElement` is only used on initializing the actual stack.
-    @Published var statusBarStyles: [UIStatusBarStyle] = []
 
     /// An offset storer for all views.
     ///
