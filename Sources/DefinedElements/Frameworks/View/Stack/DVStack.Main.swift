@@ -3,50 +3,88 @@
 import Foundation
 import SwiftUI
 
-/// DefinedViewStack - 视图堆栈 @ DefinedElements
+/// [DE] A view stack holding `DefinedPage`.
 ///
-/// - TODO: Be able to use Stack multiple times (means multiple universal managers and controllers)
+/// - BUG: Swipe back gesture not perfect
 public struct DefinedViewStack : DefinedView {
-    /// 页面堆栈管理器 < 环境变量 >
-    ///
-    /// 用于进行页面堆栈的管理，以及实现页面堆栈的交互动效
-    @ObservedObject var manager: DefinedViewStackManager = DefinedViewStackManager.generate()
     
-    /// 视图空间 < 内部变量 >
+    /// A manager controlling the view stack.
+    ///
+    /// Should be observed and generate from `DVStackManager` global instance.
+    /// To be used on managing pages and interactions.
+    @ObservedObject var manager: DefinedViewStackManager
+    
+    /// The name of this `DefinedViewStack`.
+    ///
+    /// Should be unique per page (if there are multiple embeded view stacks in one page).
+    private var name: String
+    
+    /// The parent page id of this `DefinedViewStack`.
+    private var parentId: UUID
+    
+    /// The namespace for this view stack.
     @Namespace private var space
     
-    /// DefinedViewStack 构造器 - DefinedPage < 推荐构造器 >
+    /// [DE Internal] Create a view stack by given start page.
+    ///
+    /// This should be used internally on starting the app (the root stack).
     ///
     /// - Parameters:
     ///   - from: The start page of this stack.
     internal init<StartPage>(from start: StartPage) where StartPage: DefinedPage {
-        self.manager.viewStack.push(DefinedViewStackElement(start))
-        DefinedViewManager.registerStack(
-            manager: self.manager,
-            parent: .base
+        self.name = "DVStackCoreRootInternal"
+        self.parentId = DefinedViewStackManager.rootId
+        
+        let shouldRegister = DefinedViewStackManager.shouldRegister(name: name, pageId: parentId)
+        self.manager = DefinedViewStackManager.get(
+            name: "DVStackCoreRootInternal",
+            pageId: parentId,
+            shouldUseStatusBar: true
         )
+        
+        if shouldRegister {
+            self.manager.viewStack.push(DefinedViewStackElement(start))
+            DefinedViewManager.registerStack(
+                manager: self.manager,
+                parent: .base
+            )
+        }
     }
     
-    /// DefinedViewStack 构造器 - DefinedPage < 推荐构造器 >
+    /// [DE] Create a view stack by given start page and the parent page.
+    ///
+    /// This should be used on developing a stack in another page.
     ///
     /// - Parameters:
+    ///   - name: The name of the view stack.
     ///   - from: The start page of this stack.
     ///   - at: The parent page (the page holding this stack, NOT the root page of this stack).
+    ///   - statusBar: True if this stack should change the status bar style while directing. (optional, default false)
     public init<StartPage, ParentPage>(
+        name: String,
         from start: StartPage,
-        at parent: ParentPage
+        at parent: ParentPage,
+        statusBar shouldUseStatusBar: Bool = false
     ) where StartPage: DefinedPage, ParentPage: DefinedPage {
-        self.manager.viewStack.push(DefinedViewStackElement(start))
-        DefinedViewManager.registerStack(
-            manager: self.manager,
-            parent: DefinedViewManager.find(parent).parent,
-            under: DefinedViewManager.find(parent)
-        )
+        self.name = name
+        self.parentId = parent.id
+        
+        let shouldRegister = DefinedViewStackManager.shouldRegister(name: name, pageId: parentId)
+        self.manager = DefinedViewStackManager.get(name: name, pageId: parentId, shouldUseStatusBar: shouldUseStatusBar)
+                
+        if shouldRegister {
+            self.manager.viewStack.push(DefinedViewStackElement(start))
+            DefinedViewManager.registerStack(
+                manager: self.manager,
+                parent: DefinedViewManager.find(parent).parent,
+                under: DefinedViewManager.find(parent)
+            )
+        }
     }
     
     // MARK: - Body
     
-    ///
+    /// The core body view of this view stack.
     public var body: some View {
         GeometryReader { proxy in
             ZStack(alignment: .center) { // MARK: View Part
@@ -58,12 +96,10 @@ public struct DefinedViewStack : DefinedView {
                             .overlay(
                                 DefinedContent(.overlay) {
                                     if i == self.manager.elements.count - 2 {
-                                        Color.black.opacity(0.1)
+                                        Color.black.opacity(0.06)
                                             .edgesIgnoringSafeArea(.all)
                                             .transition(.opacity)
                                             .allowsHitTesting(false)
-                                    } else {
-                                        EmptyView()
                                     }
                                 }
                             )
@@ -120,7 +156,6 @@ public struct DefinedViewStack : DefinedView {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             )
-            // .mask(Color.black.opacity(self.manager.overallOpacity).animation(.easeInOut(duration: 0.30)).edgesIgnoringSafeArea(.all))
             .disabled(self.manager.onRootAnimated)
             .onAppear {
                 self.manager.width = proxy.size.width
@@ -128,11 +163,6 @@ public struct DefinedViewStack : DefinedView {
                 self.manager.safeAreaInsets = proxy.safeAreaInsets
             }
         }
-    }
-    
-    ///
-    public func setStatusBarStyle(_ style: UIStatusBarStyle) {
-        // TODO:
     }
 }
 
