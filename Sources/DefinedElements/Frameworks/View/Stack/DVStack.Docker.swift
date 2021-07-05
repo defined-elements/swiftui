@@ -1,6 +1,7 @@
 #if os(iOS)
 
 import Foundation
+import UIKit
 
 ///
 public struct DefinedViewStackDocker : DefinedPotentialWarning {
@@ -47,6 +48,14 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
     public func back() {
         if (self.manager != nil) {
             manager!.pop()
+        } else {
+            warning("the manager is null!")
+        }
+    }
+    
+    public func setStatusBarStyle(pageId: UUID, style: UIStatusBarStyle) {
+        if (self.manager != nil) {
+            manager!.setStatusBarStyle(pageId: pageId, style: style)
         } else {
             warning("the manager is null!")
         }
