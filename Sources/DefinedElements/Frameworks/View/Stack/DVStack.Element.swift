@@ -6,7 +6,8 @@ import SwiftUI
 /// [DE Internal] A view stack element holder using for `DefinedViewStack`.
 ///
 /// - Note: The reason why we do NOT use generic type for `DefinedPage` is we will not be able to define an array of this.
-internal struct DefinedViewStackElement : Identifiable, Equatable {
+/// - Note: We should use `class` instead of `struct` to avoid unwanted re-init of the values.
+internal class DefinedViewStackElement : Identifiable, Equatable {
     /// [Deprecated]
     ///
     /// This may be deprecated. It is used to make sure that the newer page is always above the elder page.
