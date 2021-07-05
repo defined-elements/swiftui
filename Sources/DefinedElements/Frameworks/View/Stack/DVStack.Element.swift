@@ -3,30 +3,36 @@
 import Foundation
 import SwiftUI
 
-/// 该结构服务于`DefinedViewStack` < 内部组件 >
+/// [DE Internal] A view stack element holder using for `DefinedViewStack`.
 ///
-/// - Note: The reason why we do not use generic type for `DefinedPage` is we will not be able to define an array of this.
-struct DefinedViewStackElement : Identifiable, Equatable {
-    /// [Internal]
-    static var constantLevel: Int = 0
+/// - Note: The reason why we do NOT use generic type for `DefinedPage` is we will not be able to define an array of this.
+internal struct DefinedViewStackElement : Identifiable, Equatable {
+    /// [Deprecated]
+    ///
+    /// This may be deprecated. It is used to make sure that the newer page is always above the elder page.
+    /// We need to make sure that the z-index things are not affected by multiple stacks support before removing this.
+    /// Everytime we create a new stack element, it self-increases.
+    private static var constantLevel: Int = 0
     
-    /// Element 标签
+    /// The id of the page held by this stack element.
     let id: UUID
     
+    /// The level of this stack element.
     ///
+    /// It should obtained automatically from `constantLevel` property.
     let level: Int
     
-    /// Element 内容
+    /// The page held by this stack element.
     let content: AnyView
     
-    /// Element 状态栏设定（默认值）
+    /// The status bar setup of this page (held by this stack element).
     ///
-    /// - Note: 状态栏设定的变动在ViewManager中而非此处，该值仅用于页面初始化的时候
-    var statusBarStyle: UIStatusBarStyle = .darkContent
+    /// This property will be modified synchronously when the `statusBarStyle` property of the page has been changed.
+    var statusBarStyle: UIStatusBarStyle
     
-    /// 构造器 - DefinedPage
+    /// [DE Internal] Create a ViewStack element by given page.
     ///
-    /// - Parameter view: 给定视图
+    /// - Parameter page: The page for this stack element.
     init<Page>(_ page: Page) where Page: DefinedPage {
         self.id = page.id
         self.level = DefinedViewStackElement.constantLevel
@@ -36,8 +42,10 @@ struct DefinedViewStackElement : Identifiable, Equatable {
         DefinedViewStackElement.constantLevel += 1
     }
 
-    /// 用于相同比较 < 内部函数 >
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    /// Compare to ViewStack Element by comparing their page id.
+    ///
+    /// When page ids are the same, they should be the same element. Otherwise, there is a bug.
+    static func == (lhs: DefinedViewStackElement, rhs: DefinedViewStackElement) -> Bool {
         return lhs.id == rhs.id
     }
 }
