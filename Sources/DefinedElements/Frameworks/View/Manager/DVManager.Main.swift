@@ -8,7 +8,7 @@ import SwiftUI
 /// Should be attached to a `DefinedViewStack` for proper using.
 ///
 /// - TODO: Reconsider the use case of making this public.
-class DefinedViewManager {
+internal class DefinedViewManager {
     /// [DE Internal] Global instance of `DefinedViewManager`.
     static var instance = DefinedViewManager()
     
@@ -28,7 +28,7 @@ class DefinedViewManager {
     ///   - stackManager: The manager property of `DeefinedViewStack`.
     ///   - parent: The parent stack where this stack stands on.
     ///   - under: The page that this stack stands on. This is optional, but highly recommanded. If you registered a stack without associating the parent page `under` (not the parent stack), this stack and its pages will not be collected automatically when the parent page is destroyed.
-    internal static func registerStack(
+    static func registerStack(
         manager stackManager: DefinedViewStackManager,
         parent: DefinedViewManagerRootElement,
         under: DefinedViewManagerElement? = nil
@@ -51,7 +51,7 @@ class DefinedViewManager {
     /// [DE Internal] Unregister a `DefinedViewStack` into global manager.
     ///
     /// - Parameter root: The root element of the stack you want to unregister. You can get the root element by `DefinedViewManager.find(page).parent` where `page` could be any page on this stack.
-    internal static func unregisterStack(root: DefinedViewManagerRootElement) {
+    static func unregisterStack(root: DefinedViewManagerRootElement) {
         DefinedViewManager.instance.hierarchy.removeAll(where: { curr in
             if curr == root {
                 for page in curr.hierarchy {
@@ -69,7 +69,7 @@ class DefinedViewManager {
     /// - Returns: The page manager corresponding to the given page id.
     ///
     /// - Note: It will return a dummy and generate a warning if we cannot find it in order to not break the program.
-    internal static func find(_ id: UUID) -> DefinedViewManagerElement {
+    static func find(_ id: UUID) -> DefinedViewManagerElement {
         guard let element = DefinedViewManager.instance.pageMap[id] else {
             DefinedWarning.send(from: "DVManager", "cannot find the page manager by given page id.")
             return .dummy
@@ -83,7 +83,7 @@ class DefinedViewManager {
     /// - Returns: The page manager corresponding to the given page.
     ///
     /// - Note: It will return a dummy and generate a warning if we cannot find it in order to not break the program.
-    internal static func find<Page>(_ page: Page) -> DefinedViewManagerElement where Page: DefinedPage {
+    static func find<Page>(_ page: Page) -> DefinedViewManagerElement where Page: DefinedPage {
         guard let element = DefinedViewManager.instance.pageMap[page.id] else {
             DefinedWarning.send(from: "DVManager", "cannot find the page manager by given DefinedPage.")
             return .dummy
@@ -99,7 +99,7 @@ class DefinedViewManager {
     ///   - id: The id of the `DefinedPage` being registered.
     ///   - parent: The root element of the stack where this page is in.
     /// - Returns: The newly created page manager corresponding to the page that is just registered.
-    internal static func registerPage(id: UUID, parent: DefinedViewManagerRootElement) -> DefinedViewManagerElement {
+    static func registerPage(id: UUID, parent: DefinedViewManagerRootElement) -> DefinedViewManagerElement {
         let pageElement = DefinedViewManagerElement(id: id, parent: parent)
         DefinedViewManager.instance.pageMap[id] = pageElement
         return pageElement
@@ -111,7 +111,7 @@ class DefinedViewManager {
     ///
     /// - Parameters:
     ///   - id: The id of the `DefinedPage` being unregistered.
-    internal static func unregisterPage(id: UUID) {
+    static func unregisterPage(id: UUID) {
         guard let page = DefinedViewManager.instance.pageMap.removeValue(forKey: id) else {
             DefinedWarning.send(from: "DVManager", "the page being unregistered does not exist!")
             return
