@@ -1,6 +1,7 @@
 #if os(iOS)
 
 import Foundation
+import UIKit
 
 /// [DE Internal]
 internal class DefinedViewManagerElement : Equatable {
@@ -29,6 +30,10 @@ internal class DefinedViewManagerElement : Equatable {
     
     func back() {
         parent.back()
+    }
+    
+    func setStatusBarStyle(_ style: UIStatusBarStyle) {
+        parent.docker?.setStatusBarStyle(pageId: self.id, style: style)
     }
     
     func register(_ root: DefinedViewManagerRootElement) {
@@ -134,16 +139,6 @@ extension DefinedViewManagerRootElement {
     
     ///
     fileprivate static let dummy = DefinedViewManagerRootElement()
-}
-
-internal class DefinedViewManagerRoot: DefinedViewManagerRootElement {
-    init(docker: DefinedViewStackDocker) {
-        super.init(docker: docker)
-    }
-    
-    override func back() {
-        //
-    }
 }
 
 #endif
