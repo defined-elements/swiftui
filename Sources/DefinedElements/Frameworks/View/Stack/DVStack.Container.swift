@@ -7,6 +7,10 @@ struct DefinedViewStackContainer {
     ///
     var stack = [DefinedViewStackElement]()
     
+    var count: Int {
+        return stack.count
+    }
+    
     ///
     func getStack() -> [DefinedViewStackElement] {
         return stack
