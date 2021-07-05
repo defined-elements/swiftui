@@ -9,7 +9,10 @@ import SwiftUI
 /// One `StackManager` per `DefinedViewStack`.
 class DefinedViewStackManager : ObservableObject {
     ///
-    var id: UUID
+    var name: String
+    
+    ///
+    var shouldUseStatusBar: Bool
     
     /// [Deprecated]
     @Published var onAnimated: Bool = true // TODO: 下层View仅在侧滑时出现
@@ -56,8 +59,9 @@ class DefinedViewStackManager : ObservableObject {
     @Published var overallOpacity: Double = 1.0
     
     /// [DE Internal]
-    init() {
-        self.id = UUID()
+    init(name: String, statusBar: Bool) {
+        self.name = name
+        self.shouldUseStatusBar = statusBar
     }
     
     ///
@@ -69,6 +73,10 @@ class DefinedViewStackManager : ObservableObject {
     
     ///
     func push<Page>(_ target: Page) where Page: DefinedPage {
+        if self.shouldUseStatusBar {
+            UIApplication.setStatusBarStyle(target.statusBarStyle)
+        }
+        
         self.offsets.append(0)
         withAnimation(.easeInOut(duration: 0.30)) {
             self.viewStack.push(DefinedViewStackElement(target))
@@ -82,6 +90,10 @@ class DefinedViewStackManager : ObservableObject {
     ///
     func pop() {
         if self.viewStack.stack.count > 1 {
+            if self.shouldUseStatusBar {
+                UIApplication.setStatusBarStyle(self.elements[self.elements.count - 2].statusBarStyle)
+            }
+            
             withAnimation(.easeInOut(duration: 0.25)) {
                 if (self.offsets[self.offsets.count - 2] == 0) {
                     self.viewStack.pop()
@@ -95,16 +107,15 @@ class DefinedViewStackManager : ObservableObject {
             self.offsets.removeLast()
         } else {
             // ERROR: should NOT be able to pop right now!!!
-            
-//            withAnimation(.easeInOut(duration: 0.26)) {
-//                self.viewStack.pop()
-//            }
-//            self.offsets.removeLast()
         }
     }
     
     ///
     func jump<Page>(_ target: Page) where Page: DefinedPage {
+        if self.shouldUseStatusBar {
+            UIApplication.setStatusBarStyle(target.statusBarStyle)
+        }
+        
         withAnimation(.easeInOut(duration: 0.50)) {
             self.renew()
             self.viewStack.push(DefinedViewStackElement(target))
@@ -116,19 +127,51 @@ class DefinedViewStackManager : ObservableObject {
         self.viewStack.removeAll()
         self.offsets = [0]
     }
-}
-
-extension DefinedViewStackManager {
-    private static var pool: [UUID: DefinedViewStackManager] = [:]
     
-    internal static func generate() -> DefinedViewStackManager {
-        let newManager = DefinedViewStackManager()
-        pool[newManager.id] = newManager
-        return newManager
+    ///
+    func setStatusBarStyle(_ style: UIStatusBarStyle) {
+        self.elements[self.elements.count - 1].statusBarStyle = style
+        UIApplication.setStatusBarStyle(style)
     }
     
-    internal static func find(id: UUID) -> DefinedViewStackManager? {
-        return pool[id]
+    ///
+    func setStatusBarStyle(pageId: UUID, style: UIStatusBarStyle) {
+        let index = self.elements.firstIndex(where: { elem in return elem.id == pageId })
+        if index != nil {
+            self.elements[index!].statusBarStyle = style
+            if (index == self.elements.count - 1) {
+                UIApplication.setStatusBarStyle(style)
+            }
+        }
+        
+    }
+}
+
+// MARK: - StackManager Pool
+
+extension DefinedViewStackManager {
+    internal static let rootId: UUID = UUID()
+    
+    private static var pool: [UUID: [String: DefinedViewStackManager]] = [:]
+    
+    internal static func get(
+        name: String,
+        pageId: UUID,
+        shouldUseStatusBar: Bool,
+        rebuild: Bool = false
+    ) -> DefinedViewStackManager {
+        if pool[pageId] == nil {
+            pool[pageId] = [:]
+        }
+        if pool[pageId]![name] == nil || rebuild {
+            let newManager = DefinedViewStackManager(name: name, statusBar: shouldUseStatusBar)
+            pool[pageId]![name] = newManager
+        }
+        return pool[pageId]![name]!
+    }
+    
+    internal static func shouldRegister(name: String, pageId: UUID) -> Bool {
+        return pool[pageId]?[name] == nil
     }
 }
 
