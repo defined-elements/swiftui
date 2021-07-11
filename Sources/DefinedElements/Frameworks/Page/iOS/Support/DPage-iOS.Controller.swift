@@ -7,6 +7,8 @@ import Foundation
 /// ``` swift
 /// var controller: DefinedPageController = .init()
 /// ```
+///
+/// - TODO: `swap` and `jump` features.
 public class DefinedPageController {
     /// The page id associated with the controlled page.
     ///
