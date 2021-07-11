@@ -197,6 +197,7 @@ internal class DefinedViewManagerRootElement : DefinedPotentialWarning, Equatabl
         }
         if (hierarchy.count > 1) {
             self.docker!.back()
+            // unregister it from the ViewManager after pop it out to avoid double execute.
             let last = self.hierarchy.removeLast()
             DefinedViewManager.unregisterPage(id: last.id)
         } else {
