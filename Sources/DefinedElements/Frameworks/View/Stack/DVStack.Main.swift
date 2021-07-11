@@ -5,7 +5,8 @@ import SwiftUI
 
 /// [DE] A view stack holding `DefinedPage`.
 ///
-/// - BUG: Swipe back gesture not perfect
+/// - BUG: Swipe over-edge bug.
+/// - BUG: Swipe back gesture detection is not perfect.
 public struct DefinedViewStack : DefinedView {
     
     /// A manager controlling the view stack.
@@ -111,7 +112,9 @@ public struct DefinedViewStack : DefinedView {
                     EmptyView()
                 }
             }
-            .overlay( // MARK: Drag Part
+            .overlay(
+                // MARK: Drag Part
+                // TODO: make drag better
                 DefinedContent(.overlay, alignment: .leading) {
                     if self.manager.elements.count > 1 {
                         Color.clear
