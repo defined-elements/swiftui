@@ -1,24 +1,27 @@
 #if os(iOS)
 
-import Foundation
-import UIKit
+import SwiftUI
 
-///
-public struct DefinedViewStackDocker : DefinedPotentialWarning {
-    public var name: String = "DVStackDocker"
+/// [DE Internal] A docker connecting between `DVStackManager` and `DVManagerElement`.
+internal struct DefinedViewStackDocker : DefinedPotentialWarning {
+    internal var name: String = "DVStackDocker"
     
+    /// The corresponding `DVStackManager`.
+    ///
+    /// - Note: Was planned to use it directly on building the page so it kept optional. Don't worry! For now we forced an required `DVStackManager` in `init(manager:)`.
     internal var manager: DefinedViewStackManager?
     
-    public init() {
-        self.manager = nil
-    }
-    
+    /// [DE Internal] Create a docker with given `DVStackManager`.
+    ///
+    /// - Parameter manager: The corresponding `DVStackManager`.
     internal init(manager: DefinedViewStackManager) {
         self.manager = manager
     }
     
+    /// [DE Internal] Link to the target page.
     ///
-    public func link<Page>(to target: Page) where Page: DefinedPage {
+    /// - Parameter target: The target page.
+    internal func link<Page>(to target: Page) where Page: DefinedPage {
         if (self.manager != nil) {
             manager!.push(target)
         } else {
@@ -26,8 +29,10 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         }
     }
     
+    /// [DE Internal] Jump to the target page.
     ///
-    public func jump<Page>(to target: Page) where Page: DefinedPage {
+    /// - Parameter target: The target page.
+    internal func jump<Page>(to target: Page) where Page: DefinedPage {
         if (self.manager != nil) {
             manager!.jump(target)
         } else {
@@ -35,8 +40,10 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         }
     }
     
+    /// [DE Internal] Swap with the target page.
     ///
-    public func swap<Page>(with target: Page) where Page: DefinedPage {
+    /// - Parameter target: The target page.
+    internal func swap<Page>(with target: Page) where Page: DefinedPage {
         if (self.manager != nil) {
             //
         } else {
@@ -44,8 +51,8 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         }
     }
     
-    ///
-    public func back() {
+    /// [DE Internal] Go back to previous page.
+    internal func back() {
         if (self.manager != nil) {
             manager!.pop()
         } else {
@@ -53,7 +60,12 @@ public struct DefinedViewStackDocker : DefinedPotentialWarning {
         }
     }
     
-    public func setStatusBarStyle(pageId: UUID, style: UIStatusBarStyle) {
+    /// [DE Internal] Set status bar style by given page id and target style.
+    ///
+    /// - Parameters:
+    ///   - pageId: The id of the page that going to change its status bar style.
+    ///   - style: The target style.
+    internal func setStatusBarStyle(pageId: UUID, style: UIStatusBarStyle) {
         if (self.manager != nil) {
             manager!.setStatusBarStyle(pageId: pageId, style: style)
         } else {
