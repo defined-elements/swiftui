@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 
 /// [DE] A class containing the specification of font for the view of some text.
