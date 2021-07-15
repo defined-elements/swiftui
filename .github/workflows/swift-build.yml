@@ -1,19 +1,19 @@
-name: Swift AutoBuild Pipeline
+# name: Swift AutoBuild Pipeline
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: macos-latest
+#     runs-on: macos-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: Build
+#       run: swift build -v
+#     - name: Run tests (if available)
+#       run: swift test -v
