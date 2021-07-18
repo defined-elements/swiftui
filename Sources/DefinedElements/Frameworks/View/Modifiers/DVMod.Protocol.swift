@@ -4,7 +4,9 @@ import SwiftUI
 ///
 /// It supports basic SwiftUI `View` as well.
 ///
-/// - Note: **Why do we need to extend among `View`, `DefinedView`, and `DefinedViewModifiedView`?**
+/// =====
+///
+/// **Why do we need to extend among `View`, `DefinedView`, and `DefinedViewModifiedView`?**
 ///
 /// Because when we have a `DefinedViewModifiedView` with an invalid Modifier,
 /// we are still able to keep the origin ancestor and pass it through.
@@ -12,7 +14,9 @@ import SwiftUI
 /// If we shut down the Modifier pattern by only extending the `View`,
 /// we will lose all future changes.
 ///
-/// - Note: **What do I need to implement?**
+/// =====
+///
+/// **What do I need to implement?**
 ///
 /// ``` swift
 /// extension View {
@@ -46,7 +50,9 @@ public extension DefinedViewModifier {
     ///
     /// - Parameter view: A `DefinedViewModifiedView` with unsupported RootViewType.
     /// - Returns: The original `DefinedViewModifiedView` (because we are not able to modify it), nothing changes.
-    func modify<OtherModifiedViews: DefinedView>(view: DefinedViewModifiedView<OtherModifiedViews>) -> DefinedViewModifiedView<OtherModifiedViews> {
+    func modify<OtherModifiedViews: DefinedView>(
+        view: DefinedViewModifiedView<OtherModifiedViews>
+    ) -> DefinedViewModifiedView<OtherModifiedViews> {
         print("WARNING: Modify [\(name)] for DefinedViewModifiedView (root: \(type(of: view.root))) is not supported!")
         return view
     }
@@ -57,7 +63,9 @@ public extension DefinedViewModifier {
     ///
     /// - Parameter view: A `DefinedView`.
     /// - Returns: A `DefinedViewModifiedView` containing this `DefinedView` as a root (because we are not able to modify it).
-    func modify<OtherDefinedViews: DefinedView>(view: OtherDefinedViews) -> DefinedViewModifiedView<OtherDefinedViews> {
+    func modify<OtherDefinedViews: DefinedView>(
+        view: OtherDefinedViews
+    ) -> DefinedViewModifiedView<OtherDefinedViews> {
         print("WARNING: Modify [\(name)] for DefinedView (root: \(type(of: view))) is not supported!")
         return DefinedViewModifiedView(root: view, configuration: .init(), content: { root in
             root
@@ -76,7 +84,9 @@ public extension DefinedViewModifier {
     ///
     /// - Parameter view: A `View`.
     /// - Returns: The view itself (because we are not able to modify it).
-    func modify<OtherViews: View>(view: OtherViews) -> some View {
+    func modify<OtherViews: View>(
+        view: OtherViews
+    ) -> some View {
         print("ERROR: Modify [\(name)] for View (type: \(type(of: view))) is not supported!")
         return view
     }
