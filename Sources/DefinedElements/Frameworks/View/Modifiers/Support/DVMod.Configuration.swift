@@ -4,46 +4,112 @@ import SwiftUI
 ///
 /// This class is designed for internal usage only. We do not need this object outside.
 ///
-/// - TODO: convey the shape of ancestors!
-internal class DefinedViewModifiedViewConfiguration {
-    /// A variable showing if the background of the root view has been set.
+/// =====
+///
+/// **What is an Isolated Layer?**
+///
+/// Based on the basic mental model of SwiftUI, the frame, background, and more are not just properties of a view.
+/// You can recursively define backgrounds and they will wrap the inner one again and again instead of overriding.
+///
+/// And since we bring a new status-based design pattern into the Defined Elements,
+/// we need to make sure that the wrap happens at the correct time,
+/// and does exactly what we are looking for as the status-based design pattern.
+///
+/// Therefore, we use layers to distinguish the wraps.
+/// In basic SwiftUI, each time you define a background or a frame is creating a new layer.
+/// In DE, each time you define a repeated background or a repeated/full frame is creating a new layer.
+///
+/// In other words, you can define different backgrounds for different statuses on the same layer,
+/// where they should not be put into the separate layers because they trigger on different statuses.
+///
+/// However, when you define a background for the same layer twice (you defined it before, and try to define again),
+/// you are intentionally making a new layer (a similar behavior to wrap a new background in basic SwiftUI).
+/// Thus, after that, all other statuses' background you define will be put into the new layer.
+/// And because this is a new layer,
+/// you can define statuses of backgrounds you have set on previous layer again and that should be fine.
+///
+/// - TODO: To be fully documented.
+/// - TODO: Border things and overlay things are not finished yet.
+internal struct DefinedViewModifiedViewConfiguration {
+    /// An isolation flag showing if the background of an isolated layer has been set on `default`.
     ///
     /// If the background of the root view has been set, we are going into the `forceBackground(_:)` method.
-    /// This method wraps the background outside root view instead of setting into the root view.
+    /// This method wraps the background outside the root view instead of setting into the root view.
     var isBackgroundIsolated_def: Bool = false
     
+    /// An isolation flag showing if the background of an isolated layer has been set on `loading`.
+    ///
+    /// If the background of the root view has been set, we are going into the `forceBackground(_:)` method.
+    /// This method wraps the background outside the root view instead of setting into the root view.
     var isBackgroundIsolated_loading: Bool = false
     
+    /// An isolation flag showing if the background of an isolated layer has been set on `active`.
+    ///
+    /// If the background of the root view has been set, we are going into the `forceBackground(_:)` method.
+    /// This method wraps the background outside the root view instead of setting into the root view.
     var isBackgroundIsolated_act: Bool = false
     
+    /// An isolation flag showing if the background of an isolated layer has been set on `done`.
+    ///
+    /// If the background of the root view has been set, we are going into the `forceBackground(_:)` method.
+    /// This method wraps the background outside the root view instead of setting into the root view.
     var isBackgroundIsolated_done: Bool = false
     
+    /// An isolation flag showing if the background of an isolated layer has been set on `error`.
+    ///
+    /// If the background of the root view has been set, we are going into the `forceBackground(_:)` method.
+    /// This method wraps the background outside the root view instead of setting into the root view.
     var isBackgroundIsolated_error: Bool = false
     
+    /// An isolation flag showing if the background of an isolated layer has been set on `disabled`.
+    ///
+    /// If the background of the root view has been set, we are going into the `forceBackground(_:)` method.
+    /// This method wraps the background outside the root view instead of setting into the root view.
     var isBackgroundIsolated_disabled: Bool = false
     
-    ///
+    /// The configuration set of backgrounds on different statuses.
     var backgroundConfiguration: DefinedViewBackgroundConfiguration = .init()
     
+    /// An isolation flag showing if the border of an isolated layer has been set on `default`.
     ///
+    /// If the border of the root view has been set, we are going into the `forceBorder(_:)` method.
+    /// This method wraps the border outside the root view instead of setting into the root view.
     var isBorderIsolated_def: Bool = false
     
+    /// An isolation flag showing if the border of an isolated layer has been set on `loading`.
+    ///
+    /// If the border of the root view has been set, we are going into the `forceBorder(_:)` method.
+    /// This method wraps the border outside the root view instead of setting into the root view.
     var isBorderIsolated_loading: Bool = false
     
+    /// An isolation flag showing if the border of an isolated layer has been set on `active`.
+    ///
+    /// If the border of the root view has been set, we are going into the `forceBorder(_:)` method.
+    /// This method wraps the border outside the root view instead of setting into the root view.
     var isBorderIsolated_act: Bool = false
     
+    /// An isolation flag showing if the border of an isolated layer has been set on `done`.
+    ///
+    /// If the border of the root view has been set, we are going into the `forceBorder(_:)` method.
+    /// This method wraps the border outside the root view instead of setting into the root view.
     var isBorderIsolated_done: Bool = false
     
+    /// An isolation flag showing if the border of an isolated layer has been set on `error`.
+    ///
+    /// If the border of the root view has been set, we are going into the `forceBorder(_:)` method.
+    /// This method wraps the border outside the root view instead of setting into the root view.
     var isBorderIsolated_error: Bool = false
     
+    /// An isolation flag showing if the border of an isolated layer has been set on `disabled`.
+    ///
+    /// If the border of the root view has been set, we are going into the `forceBorder(_:)` method.
+    /// This method wraps the border outside the root view instead of setting into the root view.
     var isBorderIsolated_disabled: Bool = false
     
-    ///
+    /// The configuration set of borders on different statuses.
     var borderConfiguration: DefinedViewBorderConfiguration = .init()
     
-    /// A variable showing if the frame size of the root view has been set to expand.
-    var isFrameSizeSet: (width: Bool, height: Bool) = (width: false, height: false)
-    
+    /// [DE Internal] Simply create a BorderConfiguration instance for DVMV.
     init() {
         // do nothing.
     }
@@ -64,8 +130,7 @@ internal class DefinedViewModifiedViewConfiguration {
         isBorderIsolated_done: Bool? = nil,
         isBorderIsolated_error: Bool? = nil,
         isBorderIsolated_disabled: Bool? = nil,
-        borderConfiguration: DefinedViewBorderConfiguration? = nil,
-        isFrameSizeSet: (width: Bool, height: Bool)? = nil
+        borderConfiguration: DefinedViewBorderConfiguration? = nil
     ) {
         self.isBackgroundIsolated_def = isBackgroundIsolated_def ?? oldConfiguration.isBackgroundIsolated_def
         self.isBackgroundIsolated_loading = isBackgroundIsolated_loading ?? oldConfiguration.isBackgroundIsolated_loading
@@ -81,7 +146,6 @@ internal class DefinedViewModifiedViewConfiguration {
         self.isBorderIsolated_error = isBorderIsolated_error ?? oldConfiguration.isBorderIsolated_error
         self.isBorderIsolated_disabled = isBorderIsolated_disabled ?? oldConfiguration.isBorderIsolated_disabled
         self.borderConfiguration = borderConfiguration ?? oldConfiguration.borderConfiguration
-        self.isFrameSizeSet = isFrameSizeSet ?? oldConfiguration.isFrameSizeSet
     }
     
     func backgroundIsolation(
@@ -92,13 +156,15 @@ internal class DefinedViewModifiedViewConfiguration {
         error: Bool = false,
         disabled: Bool = false
     ) -> DefinedViewModifiedViewConfiguration {
-        self.isBackgroundIsolated_def = def ? true : self.isBackgroundIsolated_def
-        self.isBackgroundIsolated_loading = loading ? true : self.isBackgroundIsolated_loading
-        self.isBackgroundIsolated_act = active ? true : self.isBackgroundIsolated_act
-        self.isBackgroundIsolated_done = done ? true : self.isBackgroundIsolated_done
-        self.isBackgroundIsolated_error = error ? true : self.isBackgroundIsolated_error
-        self.isBackgroundIsolated_disabled = disabled ? true : self.isBackgroundIsolated_disabled
-        return self
+        return DefinedViewModifiedViewConfiguration(
+            oldConfiguration: self,
+            isBackgroundIsolated_def: def ? true : nil,
+            isBackgroundIsolated_loading: loading ? true : nil,
+            isBackgroundIsolated_act: active ? true : nil,
+            isBackgroundIsolated_done: done ? true : nil,
+            isBackgroundIsolated_error: error ? true : nil,
+            isBackgroundIsolated_disabled: disabled ? true : nil
+        )
     }
     
     func setMVBackground(
@@ -109,13 +175,17 @@ internal class DefinedViewModifiedViewConfiguration {
         error: AnyView? = nil,
         disabled: AnyView? = nil
     ) -> DefinedViewModifiedViewConfiguration {
-        self.backgroundConfiguration.background_def = def ?? self.backgroundConfiguration.background_def
-        self.backgroundConfiguration.background_loading = loading ?? self.backgroundConfiguration.background_loading
-        self.backgroundConfiguration.background_act = active ?? self.backgroundConfiguration.background_act
-        self.backgroundConfiguration.background_done = done ?? self.backgroundConfiguration.background_done
-        self.backgroundConfiguration.background_def = def ?? self.backgroundConfiguration.background_def
-        self.backgroundConfiguration.background_def = def ?? self.backgroundConfiguration.background_def
-        return self
+        var newBackgroundConfiguration = self.backgroundConfiguration
+        newBackgroundConfiguration.background_def = def ?? self.backgroundConfiguration.background_def
+        newBackgroundConfiguration.background_loading = loading ?? self.backgroundConfiguration.background_loading
+        newBackgroundConfiguration.background_act = active ?? self.backgroundConfiguration.background_act
+        newBackgroundConfiguration.background_done = done ?? self.backgroundConfiguration.background_done
+        newBackgroundConfiguration.background_def = def ?? self.backgroundConfiguration.background_def
+        newBackgroundConfiguration.background_def = def ?? self.backgroundConfiguration.background_def
+        return DefinedViewModifiedViewConfiguration(
+            oldConfiguration: self,
+            backgroundConfiguration: newBackgroundConfiguration
+        )
     }
     
     func borderIsolation(
@@ -126,27 +196,14 @@ internal class DefinedViewModifiedViewConfiguration {
         error: Bool = false,
         disabled: Bool = false
     ) -> DefinedViewModifiedViewConfiguration {
-        self.isBorderIsolated_def = def ? true : self.isBorderIsolated_def
-        self.isBorderIsolated_loading = loading ? true : self.isBorderIsolated_loading
-        self.isBorderIsolated_act = active ? true : self.isBorderIsolated_act
-        self.isBorderIsolated_done = done ? true : self.isBorderIsolated_done
-        self.isBorderIsolated_error = error ? true : self.isBorderIsolated_error
-        self.isBorderIsolated_disabled = disabled ? true : self.isBorderIsolated_disabled
-        return self
-    }
-    
-    func frameWidthSet() -> DefinedViewModifiedViewConfiguration {
-        self.isFrameSizeSet = (width: true, height: self.isFrameSizeSet.height)
-        return self
-    }
-    
-    func frameHeightSet() -> DefinedViewModifiedViewConfiguration {
-        self.isFrameSizeSet = (width: self.isFrameSizeSet.width, height: true)
-        return self
-    }
-    
-    func frameSet() -> DefinedViewModifiedViewConfiguration {
-        self.isFrameSizeSet = (width: true, height: true)
-        return self
+        return DefinedViewModifiedViewConfiguration(
+            oldConfiguration: self,
+            isBorderIsolated_def: def ? true : nil,
+            isBorderIsolated_loading: loading ? true : nil,
+            isBorderIsolated_act: active ? true : nil,
+            isBorderIsolated_done: done ? true : nil,
+            isBorderIsolated_error: error ? true : nil,
+            isBorderIsolated_disabled: disabled ? true : nil
+        )
     }
 }
