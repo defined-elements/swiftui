@@ -1,5 +1,13 @@
 import SwiftUI
 
+// README:
+// You may find that this file has a lot of repeated documents,
+// that is because we want to make all methods documented whatever the parameter type is.
+// And since we should NOT intendedly use optional for all those parameters,
+// which may help us to combine some methods together,
+// I have to create separate methods.
+// The core modifier is reusable, so it is not a big deal. They are not lack of reusing.
+
 // TODO: More detailed documents.
 
 extension View {
