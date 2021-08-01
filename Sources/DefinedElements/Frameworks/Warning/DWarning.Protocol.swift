@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 /// [DE] A protocol for all units or modules that may generate a warning for developers when something goes wrong.
 public protocol DefinedPotentialWarning {
@@ -10,12 +9,17 @@ public protocol DefinedPotentialWarning {
     /// - Important: It is required because the developer get a warning needs to know which unit goes wrong.
     var name: String { get }
     
+    /// [DE] Generate a warning.
     ///
+    /// - Parameter message: The message of the warning. (required)
     func warning(_ message: String) -> Void
 }
 
 public extension DefinedPotentialWarning {
-    func warning(_ message: String? = nil) {
-        print("-- [DefinedWarning] \(name)\n-- WARNING: \(message == nil ? "An intentional warning but no description provided." : message)")
+    /// [DE] Generate a warning by `DefinedPotentialWarning`.
+    ///
+    /// - Parameter message: The message of the warning. (required)
+    func warning(_ message: String) {
+        print(">> [DefinedWarning] \(name)\n>> - WARNING: \(message)")
     }
 }
