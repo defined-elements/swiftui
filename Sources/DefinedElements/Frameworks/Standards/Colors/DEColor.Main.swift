@@ -193,13 +193,13 @@ extension Color {
                 green = Double((hexValue & 0x0000FF00) >> 8)  / 255.0
                 blue  = Double(hexValue & 0x000000FF)         / 255.0
             default:
-                DefinedWarning(
+                DefinedWarning.send(
                     from: "DEColor",
                     "Invalid RGB string, the number of characters after '#' should be either 3, 4, 6 or 8"
                 )
             }
         } else {
-            DefinedWarning(from: "DEColor", "Scan hex error")
+            DefinedWarning.send(from: "DEColor", "Scan hex error")
         }
         self.init(red: red, green: green, blue: blue, opacity: alpha)
     }
