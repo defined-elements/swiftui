@@ -14,14 +14,22 @@ extension View {
     /// - Returns: A view after modifying the text color pattern of root view.
     ///
     /// - Important: This function may NOT work if you are using me!
-    public func textColor(default: Color? = nil, loading: Color? = nil, active: Color? = nil,
-                          done: Color? = nil, error: Color? = nil, disabled: Color? = nil) -> some View {
-        return DefinedViewTextColorPatternModifier(default: `default`,
-                                                   loading: loading,
-                                                   active: active,
-                                                   done: done,
-                                                   error: error,
-                                                   disabled: disabled).modify(view: self)
+    public func contentColor(
+        default: Color? = nil,
+        loading: Color? = nil,
+        active: Color? = nil,
+        done: Color? = nil,
+        error: Color? = nil,
+        disabled: Color? = nil
+    ) -> some View {
+        return DefinedViewContentColorPatternModifier(
+            default: `default`,
+            loading: loading,
+            active: active,
+            done: done,
+            error: error,
+            disabled: disabled
+        ).modify(view: self)
     }
 }
 
@@ -39,14 +47,22 @@ extension DefinedView {
     /// - Returns: A view after modifying the text color pattern of root view.
     ///
     /// - Important: This function may NOT work if you are using me!
-    public func textColor(default: Color? = nil, loading: Color? = nil, active: Color? = nil,
-                          done: Color? = nil, error: Color? = nil, disabled: Color? = nil) -> some View {
-        return DefinedViewTextColorPatternModifier(default: `default`,
-                                                   loading: loading,
-                                                   active: active,
-                                                   done: done,
-                                                   error: error,
-                                                   disabled: disabled).modify(view: self)
+    public func contentColor(
+        default: Color? = nil,
+        loading: Color? = nil,
+        active: Color? = nil,
+        done: Color? = nil,
+        error: Color? = nil,
+        disabled: Color? = nil
+    ) -> some View {
+        return DefinedViewContentColorPatternModifier(
+            default: `default`,
+            loading: loading,
+            active: active,
+            done: done,
+            error: error,
+            disabled: disabled
+        ).modify(view: self)
     }
 }
 
@@ -64,19 +80,27 @@ extension DefinedViewModifiedView {
     /// - Returns: A view after modifying the text color pattern of root view.
     ///
     /// - Important: This function may NOT work if you are using me!
-    public func textColor(default: Color? = nil, loading: Color? = nil, active: Color? = nil,
-                          done: Color? = nil, error: Color? = nil, disabled: Color? = nil) -> some View {
-        return DefinedViewTextColorPatternModifier(default: `default`,
-                                                   loading: loading,
-                                                   active: active,
-                                                   done: done,
-                                                   error: error,
-                                                   disabled: disabled).modify(view: self)
+    public func contentColor(
+        default: Color? = nil,
+        loading: Color? = nil,
+        active: Color? = nil,
+        done: Color? = nil,
+        error: Color? = nil,
+        disabled: Color? = nil
+    ) -> some View {
+        return DefinedViewContentColorPatternModifier(
+            default: `default`,
+            loading: loading,
+            active: active,
+            done: done,
+            error: error,
+            disabled: disabled
+        ).modify(view: self)
     }
 }
 
-struct DefinedViewTextColorPatternModifier : DefinedViewModifier {
-    let name: String = "TextColorPattern"
+struct DefinedViewContentColorPatternModifier : DefinedViewModifier {
+    let name: String = "ContentColorPattern"
     
     var `default`: Color?
     var loading: Color?

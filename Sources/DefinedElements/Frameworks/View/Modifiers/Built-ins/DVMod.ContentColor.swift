@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension View {
-    /// [DE] Set the text color for current root view.
+    /// [DE] Set the content color for current root view.
     ///
     /// - Important: This function may NOT work if you are using me!
     ///
@@ -13,7 +13,7 @@ extension View {
 }
 
 extension DefinedView {
-    /// [DE] Set the text color for current root view.
+    /// [DE] Set the content color for current root view.
     ///
     /// - Important: This function may NOT work if you are using me!
     ///
@@ -25,7 +25,7 @@ extension DefinedView {
 }
 
 extension DefinedViewModifiedView {
-    /// [DE] Set the text color for current root view.
+    /// [DE] Set the content color for current root view.
     ///
     /// - Important: This function may NOT work if you are using me!
     ///
