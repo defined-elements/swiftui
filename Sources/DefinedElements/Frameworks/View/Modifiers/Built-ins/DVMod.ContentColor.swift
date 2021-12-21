@@ -7,8 +7,8 @@ extension View {
     ///
     /// - Parameter color: A color that is going to be set onto the text of root view.
     /// - Returns: A view after modifying the text color of root view.
-    public func textColor(_ color: Color) -> some View {
-        return DefinedViewTextColorModifier(color: color).modify(view: self)
+    public func contentColor(_ color: Color) -> some View {
+        return DefinedViewContentColorModifier(color: color).modify(view: self)
     }
 }
 
@@ -19,8 +19,8 @@ extension DefinedView {
     ///
     /// - Parameter color: A color that is going to be set onto the text of root view.
     /// - Returns: A view after modifying the text color of root view.
-    public func textColor(_ color: Color) -> some View {
-        return DefinedViewTextColorModifier(color: color).modify(view: self)
+    public func contentColor(_ color: Color) -> some View {
+        return DefinedViewContentColorModifier(color: color).modify(view: self)
     }
 }
 
@@ -31,13 +31,13 @@ extension DefinedViewModifiedView {
     ///
     /// - Parameter color: A color that is going to be set onto the text of root view.
     /// - Returns: A view after modifying the text color of root view.
-    public func textColor(_ color: Color) -> some View {
-        return DefinedViewTextColorModifier(color: color).modify(view: self)
+    public func contentColor(_ color: Color) -> some View {
+        return DefinedViewContentColorModifier(color: color).modify(view: self)
     }
 }
 
-struct DefinedViewTextColorModifier : DefinedViewModifier {
-    let name: String = "TextColor"
+struct DefinedViewContentColorModifier : DefinedViewModifier {
+    let name: String = "ContentColor"
     
     var color: Color
     
