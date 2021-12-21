@@ -1,6 +1,5 @@
 #if os(iOS)
 
-import Foundation
 import SwiftUI
 
 /// [DE Internal] A root view controller alternative to empower the ability of changing status bar style.

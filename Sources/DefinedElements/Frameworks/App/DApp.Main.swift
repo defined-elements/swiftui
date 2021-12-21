@@ -6,7 +6,7 @@ import SwiftUI
 /// This module is highly embeded, which includes the `WindowGroup` and more.
 /// So please do not use it as a scene (which is a component for `WindowGroup`).
 ///
-/// ```
+/// ``` swift
 /// @main
 /// struct YourAppName: DefinedApp {
 ///     /// Your startup page, which has to be conformed to DefinedPage.
@@ -58,12 +58,7 @@ public extension DefinedApp {
         
         #if os(iOS)
         
-        WindowGroup {
-            EmptyView()
-                .onAppear(perform: {
-                    UIApplication.setController(rootView: DefinedViewStack(from: self.start))
-                })
-        }
+        DefinedAppRoot(from: self.start)
         
         #endif
                 
@@ -71,10 +66,7 @@ public extension DefinedApp {
         
         #if os(macOS)
         
-        WindowGroup {
-            DefinedViewStack(from: self.start_macOS) // TODO: Waiting to be developed
-        }
-        .windowStyle(HiddenTitleBarWindowStyle())
+        DefinedAppRoot()
         
         #endif
     }
