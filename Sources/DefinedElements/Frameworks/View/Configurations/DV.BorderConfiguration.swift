@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 
 /// [DE] A configuration class containing everything related to border working for `DefinedView` protocol system.
@@ -31,6 +30,12 @@ public struct DefinedViewBorderConfiguration {
     /// - Parameter inactive: True if the current view does not use `BorderConfiguration`.
     public init(inactive: Bool) {
         self.inactive = inactive
+        self.border_def = .default
+        self.border_loading = .default
+        self.border_act = .bold
+        self.border_done = .default
+        self.border_error = .default
+        self.border_disabled = .default
     }
     
     /// [DE] Create a Border Configuration with corresponding setups.
