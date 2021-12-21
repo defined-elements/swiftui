@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension DefinedText {
-    /// [DE] Set the text color pattern for current root view.
+    /// [DE] Set the content color pattern for current root view.
     ///
     /// You only need to set the colors of status that you need.
     ///
@@ -12,7 +12,7 @@ extension DefinedText {
     /// - Parameter error: The color when status is `error`.
     /// - Parameter disabled: The color when status is `disabled`.
     /// - Returns: A view after modifying the text color pattern of root view.
-    public func textColor(
+    public func contentColor(
         default: Color? = nil,
         loading: Color? = nil,
         active: Color? = nil,
@@ -20,7 +20,7 @@ extension DefinedText {
         error: Color? = nil,
         disabled: Color? = nil
     ) -> DefinedViewModifiedView<DefinedText> {
-        return DefinedViewTextColorPatternModifier(
+        return DefinedViewContentColorPatternModifier(
             default: `default`,
             loading: loading,
             active: active,
@@ -32,7 +32,7 @@ extension DefinedText {
 }
 
 extension DefinedViewModifiedView where Self.RootViewType == DefinedText {
-    /// [DE] Set the text color pattern for current root view.
+    /// [DE] Set the content color pattern for current root view.
     ///
     /// You only need to set the colors of status that you need.
     ///
@@ -43,7 +43,7 @@ extension DefinedViewModifiedView where Self.RootViewType == DefinedText {
     /// - Parameter error: The color when status is `error`.
     /// - Parameter disabled: The color when status is `disabled`.
     /// - Returns: A view after modifying the text color pattern of root view.
-    public func textColor(
+    public func contentColor(
         default: Color? = nil,
         loading: Color? = nil,
         active: Color? = nil,
@@ -51,7 +51,7 @@ extension DefinedViewModifiedView where Self.RootViewType == DefinedText {
         error: Color? = nil,
         disabled: Color? = nil
     ) -> DefinedViewModifiedView<DefinedText> {
-        return DefinedViewTextColorPatternModifier(
+        return DefinedViewContentColorPatternModifier(
             default: `default`,
             loading: loading,
             active: active,
@@ -62,7 +62,7 @@ extension DefinedViewModifiedView where Self.RootViewType == DefinedText {
     }
 }
 
-extension DefinedViewTextColorPatternModifier {
+extension DefinedViewContentColorPatternModifier {
     func modify(
         view: DefinedText
     ) -> DefinedViewModifiedView<DefinedText> {

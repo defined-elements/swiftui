@@ -1,34 +1,34 @@
 import SwiftUI
 
 extension DefinedText {
-    /// [DE] Set the text color for current root view.
+    /// [DE] Set the content color for current root view.
     ///
     /// - Parameter color: A color that is going to be set onto the text of root view.
     /// - Returns: A view after modifying the text color of root view.
-    public func textColor(
+    public func contentColor(
         _ color: Color
     ) -> DefinedViewModifiedView<DefinedText> {
-        return DefinedViewTextColorModifier(
+        return DefinedViewContentColorModifier(
             color: color
         ).modify(view: self)
     }
 }
 
 extension DefinedViewModifiedView where Self.RootViewType == DefinedText {
-    /// [DE] Set the text color for current root view.
+    /// [DE] Set the content color for current root view.
     ///
     /// - Parameter color: A color that is going to be set onto the text of root view.
     /// - Returns: A view after modifying the text color of root view.
-    public func textColor(
+    public func contentColor(
         _ color: Color
     ) -> DefinedViewModifiedView<DefinedText> {
-        return DefinedViewTextColorModifier(
+        return DefinedViewContentColorModifier(
             color: color
         ).modify(view: self)
     }
 }
 
-extension DefinedViewTextColorModifier {
+extension DefinedViewContentColorModifier {
     func modify(
         view: DefinedText
     ) -> DefinedViewModifiedView<DefinedText> {
