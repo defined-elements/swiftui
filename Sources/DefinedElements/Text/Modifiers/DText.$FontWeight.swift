@@ -54,7 +54,9 @@ extension DefinedViewTextFontWeightModifier {
         )
     }
     
-    func modify(view: DefinedViewModifiedView<DefinedText>) -> DefinedViewModifiedView<DefinedText> {
+    func modify(
+        view: DefinedViewModifiedView<DefinedText>
+    ) -> DefinedViewModifiedView<DefinedText> {
         print("YES: Modify \(name) for DefinedViewModifiedView correctly!")
         
         let newRootView = DefinedText(
