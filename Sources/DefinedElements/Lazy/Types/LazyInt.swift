@@ -19,7 +19,19 @@ public class LazyInt: LazyData {
     }
     
     ///
-    public func update(_ value: Int, status: GeneralStatus = .default) {
+    public func update(_ value: Int) {
+        self.value = value
+        self.stringValue = "\(value)"
+        self.status = .done
+    }
+    
+    ///
+    public func update(status: GeneralStatus) {
+        self.status = status
+    }
+    
+    ///
+    public func update(_ value: Int, status: GeneralStatus) {
         self.value = value
         self.stringValue = "\(value)"
         self.status = status

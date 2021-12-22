@@ -133,16 +133,20 @@ public struct DefinedText : DefinedView {
             EmptyView()
         } else if self.status == .loading {
             RoundedRectangle(cornerRadius: 13.0, style: .continuous)
-                .frame(width: defWidth)
+                .frame(width: self.defWidth, height: self.preset.size + CGFloat(8))
                 .frame(alignment: .center)
                 .foregroundColor(self.textColor_loading)
         } else if self.status == .disabled {
             // TODO: for disabled status (with disabled icon)
         } else {
             self.textView
-                .foregroundColor(self.status == .done ? self.textColor_done :
-                                    self.status == .error ? self.textColor_error :
-                                    self.textColor_def)
+                .foregroundColor(
+                    self.status == .done ? self.textColor_done : (
+                        self.status == .error ? self.textColor_error : (
+                            self.textColor_def
+                        )
+                    )
+                )
                 .frame(alignment: .center)
         }
     }
