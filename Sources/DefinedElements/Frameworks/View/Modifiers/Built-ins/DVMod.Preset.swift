@@ -7,8 +7,12 @@ extension View {
     /// - Returns: A view after modifying the text preset of root view.
     ///
     /// - Important: This function may NOT work if you are using me!
-    public func preset(_ preset: DefinedTextPreset) -> some View {
-        return DefinedViewTextPresetModifier(preset: preset).modify(view: self)
+    private func preset<PSet: DefinedPresetProtocol>(
+        _ preset: PSet
+    ) -> some View {
+        return DefinedViewPresetModifier(
+            preset: preset
+        ).modify(view: self)
     }
 }
 
@@ -19,8 +23,12 @@ extension DefinedView {
     /// - Returns: A view after modifying the text preset of root view.
     ///
     /// - Important: This function may NOT work if you are using me!
-    public func preset(_ preset: DefinedTextPreset) -> some View {
-        return DefinedViewTextPresetModifier(preset: preset).modify(view: self)
+    private func preset<PSet: DefinedPresetProtocol>(
+        _ preset: PSet
+    ) -> some View {
+        return DefinedViewPresetModifier(
+            preset: preset
+        ).modify(view: self)
     }
 }
 
@@ -31,17 +39,21 @@ extension DefinedViewModifiedView {
     /// - Returns: A view after modifying the text preset of root view.
     ///
     /// - Important: This function may NOT work if you are using me!
-    public func preset(_ preset: DefinedTextPreset) -> some View {
-        return DefinedViewTextPresetModifier(preset: preset).modify(view: self)
+    private func preset<PSet: DefinedPresetProtocol>(
+        _ preset: PSet
+    ) -> some View {
+        return DefinedViewPresetModifier(
+            preset: preset
+        ).modify(view: self)
     }
 }
 
-struct DefinedViewTextPresetModifier : DefinedViewModifier {
-    let name: String = "TextPreset"
+struct DefinedViewPresetModifier<PSet: DefinedPresetProtocol> : DefinedViewModifier {
+    let name: String = "Preset"
     
-    var preset: DefinedTextPreset
+    var preset: PSet
     
-    init(preset: DefinedTextPreset) {
+    init(preset: PSet) {
         self.preset = preset
     }
 }
