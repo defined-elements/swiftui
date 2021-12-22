@@ -74,9 +74,11 @@ public struct DefinedText : DefinedView {
     }
     
     /// [Problematic] Create a view with a lazy-loading text content.
-    public init<Lazy>(_ lazy: ObservedObject<Lazy>,
-                preset: DefinedTextPreset = .body,
-                defWidth: CGFloat = 55) where Lazy: LazyData {
+    public init<Lazy: LazyData>(
+        _ lazy: ObservedObject<Lazy>,
+        preset: DefinedTextPreset = .body,
+        defWidth: CGFloat = 55
+    ) {
         self._text = lazy.projectedValue.stringValue
         self._status = lazy.projectedValue.status
         self.defWidth = defWidth
@@ -85,10 +87,12 @@ public struct DefinedText : DefinedView {
     }
     
     /// [Problematic] Create a view with a binding text content.
-    public init(_ lazy: Binding<String>,
-                status: Binding<GeneralStatus> = .constant(.done),
-                preset: DefinedTextPreset = .body,
-                defWidth: CGFloat = 55) {
+    public init(
+        _ lazy: Binding<String>,
+        status: Binding<GeneralStatus> = .constant(.done),
+        preset: DefinedTextPreset = .body,
+        defWidth: CGFloat = 55
+    ) {
         self._text = lazy
         self._status = status
         self.defWidth = defWidth
@@ -97,17 +101,19 @@ public struct DefinedText : DefinedView {
     }
     
     /// [Internal] For modifier only.
-    init(originalView: DefinedText,
-         text: Binding<String>? = nil,
-         status: Binding<GeneralStatus>? = nil,
-         defWidth: CGFloat? = nil,
-         preset: DefinedTextPreset? = nil,
-         textColor_def: Color? = nil,
-         textColor_loading: Color? = nil,
-         textColor_act: Color? = nil,
-         textColor_done: Color? = nil,
-         textColor_error: Color? = nil,
-         textColor_disabled: Color? = nil) {
+    init(
+        originalView: DefinedText,
+        text: Binding<String>? = nil,
+        status: Binding<GeneralStatus>? = nil,
+        defWidth: CGFloat? = nil,
+        preset: DefinedTextPreset? = nil,
+        textColor_def: Color? = nil,
+        textColor_loading: Color? = nil,
+        textColor_act: Color? = nil,
+        textColor_done: Color? = nil,
+        textColor_error: Color? = nil,
+        textColor_disabled: Color? = nil
+    ) {
         self._text = text ?? originalView.$text
         self._status = status ?? originalView.$status
         self.defWidth = defWidth ?? originalView.defWidth
@@ -151,3 +157,25 @@ struct TextView_Previews: PreviewProvider {
             .frame(maxWidth: .infinity)
     }
 }
+
+
+// TODO: We may be able to achieve that in the future. But not now.
+
+//public enum DefinedTextSourse {
+//    case string(String)
+//    case lazyString(LazyString)
+//
+//    var a: String {
+//        switch(self) {
+//        case .string(let str): return str
+//        case .lazyString(let lazystr): return lazystr.stringValue
+//        }
+//    }
+//
+//    var b: LazyString {
+//        switch(self) {
+//        case .string(let str): return LazyString(str)
+//        case .lazyString(let lazystr): return lazystr
+//        }
+//    }
+//}

@@ -8,7 +8,7 @@ extension DefinedText {
     public func preset(
         _ preset: DefinedTextPreset
     ) -> DefinedViewModifiedView<Self> {
-        return DefinedViewTextPresetModifier(
+        return DefinedViewPresetModifier(
             preset: preset
         ).modify(view: self)
     }
@@ -22,13 +22,13 @@ extension DefinedViewModifiedView where Self.RootViewType == DefinedText {
     public func preset(
         _ preset: DefinedTextPreset
     ) -> DefinedViewModifiedView<Self.RootViewType> {
-        return DefinedViewTextPresetModifier(
+        return DefinedViewPresetModifier(
             preset: preset
         ).modify(view: self)
     }
 }
 
-extension DefinedViewTextPresetModifier {
+extension DefinedViewPresetModifier {
     func modify(
         view: DefinedText
     ) -> DefinedViewModifiedView<DefinedText> {
@@ -36,7 +36,7 @@ extension DefinedViewTextPresetModifier {
         
         let newRootView = DefinedText(
             originalView: view,
-            preset: preset
+            preset: preset as? DefinedTextPreset
         )
         return DefinedViewModifiedView(
             root: newRootView,
@@ -54,7 +54,7 @@ extension DefinedViewTextPresetModifier {
         
         let newRootView = DefinedText(
             originalView: view.root,
-            preset: preset
+            preset: preset as? DefinedTextPreset
         )
         return DefinedViewModifiedView(
             root: newRootView,
