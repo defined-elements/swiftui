@@ -20,7 +20,7 @@ import SwiftUI
 /// - digits
 /// - emoji
 ///
-public class DefinedTextPreset : TextPresetProtocol {
+public class DefinedTextPreset : DefinedPresetProtocol {
     /// The font for text.
     public var font: DefinedFont
     
