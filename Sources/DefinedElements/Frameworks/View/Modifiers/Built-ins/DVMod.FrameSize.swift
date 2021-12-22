@@ -11,8 +11,8 @@ import SwiftUI
 // TODO: More detailed documents.
 
 extension View {
-    /// Since we have `frame(width:height:alignment:)` method in SwiftUI,
-    /// we do not implement the default method for `View`.
+    // Since we have `frame(width:height:alignment:)` method in SwiftUI,
+    //  we do not implement the default method for `View`.
 }
 
 // MARK: - Extension - DV
@@ -94,6 +94,15 @@ extension DefinedView {
         height: CGFloat,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
+        if self.viewConfiguration.inactive {
+            return DefinedViewModifiedView(
+                root: self,
+                configuration: .init(),
+                content: { root in
+                    root
+                }
+            )
+        }
         return DefinedViewFrameSizeModifier(
             width: nil,
             height: height,
@@ -136,6 +145,15 @@ extension DefinedView {
         height: CGFloat,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
+        if self.viewConfiguration.inactive {
+            return DefinedViewModifiedView(
+                root: self,
+                configuration: .init(),
+                content: { root in
+                    root
+                }
+            )
+        }
         return DefinedViewFrameSizeModifier(
             width: width,
             height: height,
@@ -749,28 +767,36 @@ internal struct DefinedViewFrameSizeModifier : DefinedViewModifier {
         view: OtherModifiedViews
     ) -> DefinedViewModifiedView<OtherModifiedViews> {
         print("YES: Modify \(name) (forcely wrapper) for DefinedView correctly!")
-        return DefinedViewModifiedView(root: view, configuration: .init(), content: { root in
-            frameModifier(
-                view: root,
-                width: self.width,
-                height: self.height,
-                alignment: self.alignment
-            )
-        })
+        return DefinedViewModifiedView(
+            root: view,
+            configuration: .init(),
+            content: { root in
+                frameModifier(
+                    view: root,
+                    width: self.width,
+                    height: self.height,
+                    alignment: self.alignment
+                )
+            }
+        )
     }
 
     func forceFrameSize<OtherModifiedViews: DefinedView>(
         view: DefinedViewModifiedView<OtherModifiedViews>
     ) -> DefinedViewModifiedView<OtherModifiedViews> {
         print("YES: Modify \(name) (forcely wrapper) for DefinedViewModifiedView correctly!")
-        return DefinedViewModifiedView(root: view.root, configuration: view.configuration, content: { root in
-            frameModifier(
-                view: view.content(root),
-                width: self.width,
-                height: self.height,
-                alignment: self.alignment
-            )
-        })
+        return DefinedViewModifiedView(
+            root: view.root,
+            configuration: view.configuration,
+            content: { root in
+                frameModifier(
+                    view: view.content(root),
+                    width: self.width,
+                    height: self.height,
+                    alignment: self.alignment
+                )
+            }
+        )
     }
     
     // MARK: - Core Modifier
