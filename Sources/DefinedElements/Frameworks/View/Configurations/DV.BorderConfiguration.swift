@@ -48,20 +48,20 @@ public struct DefinedViewBorderConfiguration {
     ///   - error: The border setup when status is `error`.
     ///   - disabled: The border setup when status is `disabled`.
     public init(
-        default def: DefinedBorder = .default,
-        loading: DefinedBorder = .default,
-        active act: DefinedBorder = .bold,
-        done: DefinedBorder = .default,
-        error: DefinedBorder = .default,
-        disabled: DefinedBorder = .default
+        default def: DefinedBorder? = nil,
+        loading: DefinedBorder? = nil,
+        active act: DefinedBorder? = nil,
+        done: DefinedBorder? = nil,
+        error: DefinedBorder? = nil,
+        disabled: DefinedBorder? = nil
     ) {
         self.inactive = false
-        self.border_def = def
-        self.border_loading = loading
-        self.border_act = act
-        self.border_done = done
-        self.border_error = error
-        self.border_disabled = disabled
+        self.border_def = def ?? .default
+        self.border_loading = loading ?? .default
+        self.border_act = act ?? .bold
+        self.border_done = done ?? .default
+        self.border_error = error ?? .default
+        self.border_disabled = disabled ?? .default
     }
     
     // MARK: - Modifier Constructor
