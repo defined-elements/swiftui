@@ -184,6 +184,14 @@ internal class DefinedViewManagerRootElement : DefinedPotentialWarning, Equatabl
             return
         }
         self.docker!.jump(to: target)
+        
+        for old_pages in self.hierarchy {
+            old_pages.unregister()
+        }
+        
+        self.hierarchy = [
+            DefinedViewManager.registerPage(id: target.id, parent: self)
+        ]
     }
     
     /// [DE Internal] Swap.
