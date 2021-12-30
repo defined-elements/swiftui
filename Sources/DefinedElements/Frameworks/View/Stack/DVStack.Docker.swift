@@ -72,6 +72,18 @@ internal struct DefinedViewStackDocker : DefinedPotentialWarning {
             warning("the manager is null!")
         }
     }
+    
+    /// [DE Internal]
+    internal func getViewStackInformation() -> DefinedViewStackInformation {
+        if (self.manager != nil) {
+            return DefinedViewStackInformation(
+                width: manager!.width,
+                height: manager!.height,
+                safeAreaInsets: manager!.safeAreaInsets
+            )
+        }
+        return DefinedViewStackInformation()
+    }
 }
 
 #endif
