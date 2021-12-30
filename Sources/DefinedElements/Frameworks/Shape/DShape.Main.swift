@@ -88,7 +88,7 @@ public struct DefinedShape : DefinedView {
             DefinedContent(.overlay) {
                 self.content!
             }
-            .frame(
+            .definedRawFrame(
                 width: self.viewConfiguration.width,
                 height: self.viewConfiguration.height,
                 alignment: self.viewConfiguration.alignment
@@ -125,7 +125,7 @@ public struct DefinedShape : DefinedView {
                     .foregroundColor(self.shapeColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 )
-                .frame(
+                .definedRawFrame(
                     width: self.viewConfiguration.width,
                     height: self.viewConfiguration.height,
                     alignment: self.viewConfiguration.alignment
@@ -136,7 +136,7 @@ public struct DefinedShape : DefinedView {
                 radius: self.radius
             )
             .foregroundColor(self.shapeColor)
-            .frame(
+            .definedRawFrame(
                 width: self.viewConfiguration.width,
                 height: self.viewConfiguration.height,
                 alignment: self.viewConfiguration.alignment
