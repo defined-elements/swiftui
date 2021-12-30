@@ -1,6 +1,6 @@
 import SwiftUI
 
-///
+/// - TODO: Documents.
 public class LazyString: LazyData {
     @Published public var value: String
     
