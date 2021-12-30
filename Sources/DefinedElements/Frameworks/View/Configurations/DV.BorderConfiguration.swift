@@ -85,4 +85,23 @@ public struct DefinedViewBorderConfiguration {
         self.border_error = border_error ?? oldConfiguration.border_error
         self.border_disabled = border_disabled ?? oldConfiguration.border_disabled
     }
+    
+    internal func getBorderByStatus(
+        _ status: GeneralStatus
+    ) -> DefinedBorder {
+        switch status {
+        case .default:
+            return self.border_def
+        case .loading:
+            return self.border_loading
+        case .active:
+            return self.border_act
+        case .done:
+            return self.border_done
+        case .error:
+            return self.border_error
+        case .disabled:
+            return self.border_disabled
+        }
+    }
 }
