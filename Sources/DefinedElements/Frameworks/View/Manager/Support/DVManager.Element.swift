@@ -66,6 +66,13 @@ internal class DefinedViewManagerElement : Equatable {
         }
     }
     
+    func getViewStackInformation() -> DefinedViewStackInformation {
+        if parent.docker != nil {
+            return parent.docker!.getViewStackInformation()
+        }
+        return DefinedViewStackInformation()
+    }
+    
     static func == (lhs: DefinedViewManagerElement, rhs: DefinedViewManagerElement) -> Bool {
         return lhs.id == rhs.id
     }
