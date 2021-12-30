@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 
 /// [DE] Empower the clicking interaction for DefinedButton
