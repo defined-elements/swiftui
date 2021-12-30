@@ -6,13 +6,13 @@ import SwiftUI
 /// This is an internal struct, not designed for outside usage.
 struct DefinedButtonStyleBoard : ButtonStyle {
     ///
-    var buttonConfig: DefinedButtonConfiguration
+    @Binding var scaleBinding: CGFloat
     
     ///
     init(
-        _ buttonConfig: DefinedButtonConfiguration
+        _ scaleBinding: Binding<CGFloat>
     ) {
-        self.buttonConfig = buttonConfig
+        self._scaleBinding = scaleBinding
     }
     
     ///
@@ -25,12 +25,12 @@ struct DefinedButtonStyleBoard : ButtonStyle {
                 perform: { isPressed in
                     if isPressed {
                         withAnimation(.easeInOut(duration: 0.08)) {
-                            self.buttonConfig.scale = 0.935
+                            self.scaleBinding = 0.935
                         }
                         DefinedHaptics.tap.press()
                     } else {
                         withAnimation(.easeInOut(duration: 0.28)) {
-                            self.buttonConfig.scale = 1.0
+                            self.scaleBinding = 1.0
                         }
                         DefinedHaptics.tap.release()
                     }
