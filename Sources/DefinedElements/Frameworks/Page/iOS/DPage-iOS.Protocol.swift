@@ -11,7 +11,7 @@ import SwiftUI
 /// - Note: Currently, we have done the optimization on algorithm, but I am not able to do the performance optimization on raw executing layer and rendering layer yet (still learning). I am planning to finish all performance optimizations in our 2.0 release.
 ///
 /// - Important: `DefinedViewStack` really relys on this protocol!
-public protocol DefinedPage : View, ModifiableStruct {
+public protocol DefinedPage : View {
     
     // MARK: - Protocol - Main Part
     
