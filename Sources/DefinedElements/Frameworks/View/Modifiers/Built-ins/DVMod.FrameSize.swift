@@ -23,27 +23,27 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 15.5, alignment: .center)
+    /// view.definedSize(width: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 10)
+    /// view.definedSize(width: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full)
+    /// view.definedSize(width: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - width: The width constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         alignment: Alignment? = nil
     ) -> some View {
@@ -63,27 +63,27 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(height: 15.5, alignment: .center)
+    /// view.definedSize(height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(height: 10)
+    /// view.definedSize(height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(height: .full)
+    /// view.definedSize(height: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         height: CGFloat,
         alignment: Alignment? = nil
     ) -> some View {
@@ -103,20 +103,20 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// - Parameters:
@@ -124,7 +124,7 @@ extension View {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         height: CGFloat,
         alignment: Alignment? = nil
@@ -147,27 +147,27 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 15.5, alignment: .center)
+    /// view.definedSize(width: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 10)
+    /// view.definedSize(width: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full)
+    /// view.definedSize(width: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - width: The width constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
     ) -> some View {
@@ -187,27 +187,27 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(height: 15.5, alignment: .center)
+    /// view.definedSize(height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(height: 10)
+    /// view.definedSize(height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(height: .full)
+    /// view.definedSize(height: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
     ) -> some View {
@@ -227,20 +227,20 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// - Parameters:
@@ -248,7 +248,7 @@ extension View {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
@@ -271,26 +271,26 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// Or you can mix them like this:
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: 40)
+    /// view.definedSize(width: .full, height: 40)
     /// ```
     ///
     /// - Parameters:
@@ -298,7 +298,7 @@ extension View {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
@@ -319,26 +319,26 @@ extension View {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// Or you can mix them like this:
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: 40)
+    /// view.definedSize(width: .full, height: 40)
     /// ```
     ///
     /// - Parameters:
@@ -346,7 +346,7 @@ extension View {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         height: CGFloat,
         alignment: Alignment? = nil
@@ -374,27 +374,27 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 15.5, alignment: .center)
+    /// view.definedSize(width: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 10)
+    /// view.definedSize(width: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full)
+    /// view.definedSize(width: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - width: The width constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -414,27 +414,27 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(height: 15.5, alignment: .center)
+    /// view.definedSize(height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(height: 10)
+    /// view.definedSize(height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(height: .full)
+    /// view.definedSize(height: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         height: CGFloat,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -454,20 +454,20 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// - Parameters:
@@ -475,7 +475,7 @@ extension DefinedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         height: CGFloat,
         alignment: Alignment? = nil
@@ -498,27 +498,27 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 15.5, alignment: .center)
+    /// view.definedSize(width: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 10)
+    /// view.definedSize(width: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full)
+    /// view.definedSize(width: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - width: The width constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -538,27 +538,27 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(height: 15.5, alignment: .center)
+    /// view.definedSize(height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(height: 10)
+    /// view.definedSize(height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(height: .full)
+    /// view.definedSize(height: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -578,20 +578,20 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// - Parameters:
@@ -599,7 +599,7 @@ extension DefinedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
@@ -622,26 +622,26 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// Or you can mix them like this:
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: 40)
+    /// view.definedSize(width: .full, height: 40)
     /// ```
     ///
     /// - Parameters:
@@ -649,7 +649,7 @@ extension DefinedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
@@ -670,26 +670,26 @@ extension DefinedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// Or you can mix them like this:
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: 40)
+    /// view.definedSize(width: .full, height: 40)
     /// ```
     ///
     /// - Parameters:
@@ -697,7 +697,7 @@ extension DefinedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         height: CGFloat,
         alignment: Alignment? = nil
@@ -725,27 +725,27 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 15.5, alignment: .center)
+    /// view.definedSize(width: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 10)
+    /// view.definedSize(width: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full)
+    /// view.definedSize(width: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - width: The width constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -765,27 +765,27 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(height: 15.5, alignment: .center)
+    /// view.definedSize(height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(height: 10)
+    /// view.definedSize(height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(height: .full)
+    /// view.definedSize(height: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         height: CGFloat,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -805,20 +805,20 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// - Parameters:
@@ -826,7 +826,7 @@ extension DefinedViewModifiedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         height: CGFloat,
         alignment: Alignment? = nil
@@ -849,27 +849,27 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 15.5, alignment: .center)
+    /// view.definedSize(width: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 10)
+    /// view.definedSize(width: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full)
+    /// view.definedSize(width: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - width: The width constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -889,27 +889,27 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(height: 15.5, alignment: .center)
+    /// view.definedSize(height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(height: 10)
+    /// view.definedSize(height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(height: .full)
+    /// view.definedSize(height: .full)
     /// ```
     ///
     /// - Parameters:
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
     ) -> DefinedViewModifiedView<Self> {
@@ -929,20 +929,20 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// - Parameters:
@@ -950,7 +950,7 @@ extension DefinedViewModifiedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
@@ -973,26 +973,26 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// Or you can mix them like this:
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: 40)
+    /// view.definedSize(width: .full, height: 40)
     /// ```
     ///
     /// - Parameters:
@@ -1000,7 +1000,7 @@ extension DefinedViewModifiedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: CGFloat,
         height: DefinedViewFullFrameSize,
         alignment: Alignment? = nil
@@ -1021,26 +1021,26 @@ extension DefinedViewModifiedView {
     /// When you simply want to set a width or height for the view, just put a CGFloat value in, like this:
     ///
     /// ``` swift
-    /// view.frame(width: 30.25, height: 15.5, alignment: .center)
+    /// view.definedSize(width: 30.25, height: 15.5, alignment: .center)
     /// ```
     ///
     /// Or you can just type an integer (treat as CGFloat) and without defining alignment if you do not need it.
     ///
     /// ``` swift
-    /// view.frame(width: 20, height: 10)
+    /// view.definedSize(width: 20, height: 10)
     /// ```
     ///
     /// When you want to make your view fully extended in one direction,
     /// use `.full` (or you can use `.infinity`, but I highly NOT recommended) on that direction.
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: .full)
+    /// view.definedSize(width: .full, height: .full)
     /// ```
     ///
     /// Or you can mix them like this:
     ///
     /// ``` swift
-    /// view.frame(width: .full, height: 40)
+    /// view.definedSize(width: .full, height: 40)
     /// ```
     ///
     /// - Parameters:
@@ -1048,7 +1048,7 @@ extension DefinedViewModifiedView {
     ///   - height: The height constrain of the frame.
     ///   - alignment: The position where the wrapped view should be in the frame.
     /// - Returns: A modified view containing the output of the frame you just defined.
-    public func frame(
+    public func definedSize(
         width: DefinedViewFullFrameSize,
         height: CGFloat,
         alignment: Alignment? = nil
