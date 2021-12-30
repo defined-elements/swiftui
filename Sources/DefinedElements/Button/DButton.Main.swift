@@ -6,24 +6,19 @@ import SwiftUI
 /// - TODO: More button styles.
 /// - TODO: Documentations.
 public struct DefinedButton : DefinedView {
+    ///
+    public var viewConfiguration: DefinedViewConfiguration = .init()
     
     ///
-    public var viewConfiguration: DefinedViewConfiguration =
-        .init()
+    public var backgroundConfiguration: DefinedViewBackgroundConfiguration = .init()
     
     ///
-    public var backgroundConfiguration: DefinedViewBackgroundConfiguration =
-        .init()
-    
-    ///
-    public var borderConfiguration: DefinedViewBorderConfiguration =
-        .init()
+    public var borderConfiguration: DefinedViewBorderConfiguration = .init()
     
     /// An object containing the configuration information for button's preset.
     ///
     /// - Note: Please be award that this is not modifiable! It is not a `State` or something, thus when you want to modify the configuration, you have to generate a new configuration object using the modifier constructor.
-    internal var buttonConfiguration: DefinedButtonConfiguration =
-        .init()
+    internal var buttonConfiguration: DefinedButtonConfiguration = .init()
     
     /// [DE] A type value that will be used when this button contains some views instead of using a preset layout.
     internal var layoutType: DefinedContentLayoutType
@@ -90,6 +85,9 @@ public struct DefinedButton : DefinedView {
     
     ///
     internal var disabled_error: Bool = false
+    
+    ///
+    @State internal var scale: CGFloat = 1.0
     
     // MARK: - Constructors
     
@@ -287,16 +285,18 @@ public struct DefinedButton : DefinedView {
                         )
                         .definedSize(width: .full, height: .full)
                 )
-                .scaleEffect(self.buttonConfiguration.scale)
+                .scaleEffect(self.scale)
         }
-        .buttonStyle(DefinedButtonStyleBoard(self.buttonConfiguration))
+        .buttonStyle(
+            DefinedButtonStyleBoard(self.$scale)
+        )
     }
     
     // MARK: - Preset Builder
     
     @ViewBuilder private var presetView: some View {
         if self.content != nil {
-            Text("Not!")
+            self.content
         } else {
             DefinedText(self.buttonConfiguration.text)
                 .preset(self.textPreset)
