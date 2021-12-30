@@ -19,6 +19,9 @@ public class DEColor {
         /// Usually be used at Success status.
         public static let green = Color(hex: "#ff28995d")
         
+        /// [DE] Main red
+        public static let red = Color(hex: "#ffD2686E")
+        
         /// [DE] White
         ///
         /// Just white. Mainly be used at core contents' background color.
@@ -32,11 +35,20 @@ public class DEColor {
     
     /// [DE] A color set for background stuff.
     public class bg {
-        /// [DE] Main blue
+        /// [DE] Blue
         public static let blue = DEColor.main.blue
         
-        /// [DE] Main green
+        /// [DE] Green
         public static let green = DEColor.main.green
+        
+        /// [DE] Light green
+        public static let green_light = Color(hex: "#ffe9f4ee")
+        
+        /// [DE] Red
+        public static let red = DEColor.main.red
+        
+        /// [DE] Light red
+        public static let red_light = Color(hex: "#fffbf0f1")
         
         /// [DE] White
         public static let white = DEColor.main.white
@@ -98,6 +110,9 @@ public class DEColor {
         
         /// [DE] Green
         public static let green = DEColor.main.green
+        
+        /// [DE] Red
+        public static let red = DEColor.main.red
         
         /// [DE] White
         public static let white = DEColor.main.white
