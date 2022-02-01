@@ -100,14 +100,20 @@ public struct DefinedViewStack : DefinedView {
                             .overlay(
                                 DefinedContent(.overlay) {
                                     if i == self.manager.elements.count - 2 {
-                                        Color.black.opacity(0.06)
+                                        Color.black.opacity(0.08)
                                             .edgesIgnoringSafeArea(.all)
                                             .transition(.opacity)
                                             .allowsHitTesting(false)
                                     }
                                 }
                             )
-                            .transition(i == 0 ? .opacity : .move(edge: .trailing))
+                            .transition(i == 0
+                                ? .opacity
+                                : .offset(
+                                    x: proxy.size.width - self.manager.offsets[i],
+                                    y: 0
+                                )
+                            )
                             .zIndex(Double(i))
                             .visibility(show: self.manager.onAnimated && i >= self.manager.elements.count - 2)
                             .contentShape(Rectangle())
@@ -147,8 +153,7 @@ public struct DefinedViewStack : DefinedView {
                                 }
                             }
                         }
-                    }),
-                including: .all
+                    })
             )
             .onChange(of: self.swipeOffset, perform: { value in
                 if self.manager.elements.count > 1 {

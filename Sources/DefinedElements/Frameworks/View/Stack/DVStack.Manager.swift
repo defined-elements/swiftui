@@ -114,19 +114,10 @@ internal class DefinedViewStackManager : ObservableObject {
                 UIApplication.setStatusBarStyle(self.elements[self.elements.count - 2].statusBarStyle)
             }
             
-            withAnimation(.easeInOut(duration: 0.25)) {
-                if (self.offsets[self.offsets.count - 2] == 0) {
-                    // immediately pop when we clicked the back button (no drag gesture).
-                    self.viewStack.pop()
-                } else {
-                    // this is an animation for the case that we drag the view.
-                    
-                    // BUG: there is still a time gap between popping up the top page and correctly positioning the second top page into the right place.
-                    
-                    withAnimation(.easeInOut(duration: 0.27)) {
-                        self.viewStack.pop()
-                    }
-                }
+            withAnimation(.easeInOut(duration: 0.20)) {
+                // immediately pop when we clicked the back button (no drag gesture).
+                self.viewStack.pop()
+                
                 // reset the offset and get ready for next navigation action.
                 self.offsets[self.offsets.count - 2] = 0
             }
