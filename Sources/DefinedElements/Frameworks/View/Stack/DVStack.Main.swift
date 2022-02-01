@@ -26,6 +26,9 @@ public struct DefinedViewStack : DefinedView {
     /// The namespace for this view stack.
     @Namespace private var space
     
+    /// The swipe offset gesture state.
+    @GestureState private var swipeOffset: CGFloat = 0
+    
     /// [DE Internal] Create a view stack by given start page.
     ///
     /// This should be used internally on starting the app (the root stack).
@@ -107,58 +110,52 @@ public struct DefinedViewStack : DefinedView {
                             .transition(i == 0 ? .opacity : .move(edge: .trailing))
                             .zIndex(Double(i))
                             .visibility(show: self.manager.onAnimated && i >= self.manager.elements.count - 2)
+                            .contentShape(Rectangle())
                     }
                 } else {
                     EmptyView()
                 }
             }
-            .overlay(
-                // MARK: Drag Part
-                // TODO: make drag better
-                DefinedContent(.overlay, alignment: .leading) {
-                    if self.manager.elements.count > 1 {
-                        Color.clear
-                            .frame(width: 22)
-                            .frame(maxHeight: .infinity, alignment: .leading)
-                            .background(Color.blue.opacity(0))
-                            .contentShape(Rectangle())
-                            .simultaneousGesture(
-                                LongPressGesture(minimumDuration: 0.01)
-                                    .onEnded({ gesture in
-                                        // do nothing
-                                    }),
-                                including: .all
-                            )
-                            .simultaneousGesture(
-                                DragGesture(coordinateSpace: .local)
-                                    .onChanged({ gesture in
-                                        if self.manager.elements.count > 1 {
-                                            withAnimation(.easeInOut(duration: 0.12)) {
-                                                self.manager.offsets[self.manager.elements.count - 1] = gesture.location.x / 1.2
-                                                self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + gesture.location.x / 4.8
-                                            }
-                                        }
-                                    })
-                                    .onEnded({ gesture in
-                                        if gesture.predictedEndTranslation.width > 150 {
-                                            // call the main manager to pop instead of popping from stack manager directly.
-                                            // unregister the page and pop from current stack.
-                                            DefinedViewManager.find(self.manager.elements.last!.id).back()
-                                        } else {
-                                            if self.manager.elements.count > 1 {
-                                                withAnimation(.easeInOut(duration: 0.15)) {
-                                                    self.manager.offsets[self.manager.elements.count - 1] = 0
-                                                    self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4
-                                                }
-                                            }
-                                        }
-                                    }),
-                                including: .all
-                            )
+            .simultaneousGesture(
+                DragGesture(coordinateSpace: .global)
+                    .updating($swipeOffset) { (value, gestureState, transaction) in
+                        let absolutePosition = value.startLocation.x - proxy.frame(in: .global).minX
+                        if absolutePosition > 22 {
+                            return
+                        }
+                        let delta = value.location.x - proxy.frame(in: .global).minX
+                        if delta >= 0 {
+                            gestureState = delta
+                        } else {
+                            gestureState = 0
+                        }
                     }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    .onEnded({ gesture in
+                        let absolutePosition = gesture.startLocation.x - proxy.frame(in: .global).minX
+                        if absolutePosition > 22 {
+                            return
+                        }
+                        if gesture.predictedEndTranslation.width > 150 {
+                            // call the main manager to pop instead of popping from stack manager directly.
+                            // unregister the page and pop from current stack.
+                            DefinedViewManager.find(self.manager.elements.last!.id).back()
+                        } else {
+                            if self.manager.elements.count > 1 {
+                                withAnimation(.easeInOut(duration: 0.15)) {
+                                    self.manager.offsets[self.manager.elements.count - 1] = 0
+                                    self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4
+                                }
+                            }
+                        }
+                    }),
+                including: .all
             )
+            .onChange(of: self.swipeOffset, perform: { value in
+                if self.manager.elements.count > 1 {
+                    self.manager.offsets[self.manager.elements.count - 1] = value / 1.2
+                    self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + value / 4.8
+                }
+            })
             .disabled(self.manager.onRootAnimated)
             .onAppear {
                 self.manager.width = proxy.size.width
