@@ -97,13 +97,13 @@ public struct DefinedViewStack : DefinedView {
                         self.manager.elements[i].content
                             .offset(x: i == self.manager.elements.count - 1 || i == self.manager.elements.count - 2 ? self.manager.offsets[i] : 0)
                             .matchedGeometryEffect(id: self.manager.elements[i].id, in: self.space)
+                            .contentShape(Rectangle())
                             .overlay(
-                                DefinedContent(.overlay) {
+                                ZStack {
                                     if i == self.manager.elements.count - 2 {
                                         Color.black.opacity(0.08)
                                             .edgesIgnoringSafeArea(.all)
                                             .transition(.opacity)
-                                            .allowsHitTesting(false)
                                     }
                                 }
                             )
@@ -116,20 +116,30 @@ public struct DefinedViewStack : DefinedView {
                             )
                             .zIndex(Double(i))
                             .visibility(show: self.manager.onAnimated && i >= self.manager.elements.count - 2)
-                            .contentShape(Rectangle())
+                            .disabled(i != self.manager.elements.count - 1)
                     }
                 } else {
                     EmptyView()
                 }
             }
+            // TODO: Move it to ScrollView component.
+            .overlay(
+                Color.clear
+                    .frame(width: 18)
+                    .frame(maxHeight: .infinity)
+                    .background(Color.blue.opacity(0))
+                    .contentShape(Rectangle())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            )
             .simultaneousGesture(
                 DragGesture(coordinateSpace: .global)
-                    .updating($swipeOffset) { (value, gestureState, transaction) in
-                        let absolutePosition = value.startLocation.x - proxy.frame(in: .global).minX
+                    .updating($swipeOffset) { (value, gestureState, _) in
+                        let minX: CGFloat = proxy.frame(in: .global).minX
+                        let absolutePosition = value.startLocation.x - minX
                         if absolutePosition > 22 {
                             return
                         }
-                        let delta = value.location.x - proxy.frame(in: .global).minX
+                        let delta = value.location.x - minX
                         if delta >= 0 {
                             gestureState = delta
                         } else {
@@ -157,8 +167,10 @@ public struct DefinedViewStack : DefinedView {
             )
             .onChange(of: self.swipeOffset, perform: { value in
                 if self.manager.elements.count > 1 {
-                    self.manager.offsets[self.manager.elements.count - 1] = value / 1.2
-                    self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + value / 4.8
+                    withAnimation(.easeInOut(duration: 0.03)) {
+                        self.manager.offsets[self.manager.elements.count - 1] = value / 1.2
+                        self.manager.offsets[self.manager.elements.count - 2] = -proxy.size.width / 4 + value / 4.8
+                    }
                 }
             })
             .disabled(self.manager.onRootAnimated)
